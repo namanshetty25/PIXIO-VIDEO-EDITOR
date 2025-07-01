@@ -1,0 +1,329 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  --buff: #d4aa8bff;
+  --blue-black: #000d11;
+  --blue-black-2: #132029ff;
+  --fuchsia-rose: #cf4176ff;
+  --orchid-pink: #e3b5c6ff;
+  --cerulean: #007da6ff;
+  --cream: #f7f7f7;
+  --cream-2: #f0f0f0;
+  --picton-blue: #00a8e7ff;
+  --white: #ffffffff;
+  --prussian-blue: #003459ff;
+  --lavender: #667eea;
+  font-family: Inter, sans-serif;
+}
+
+.box {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Container and Layout */
+.container {
+  display: flex;
+  overflow-y: hidden;
+  flex-direction: column;
+  color: var(--cream);
+  width: 83%;
+  height: min-content;
+  margin-bottom: 0;
+  background-color: var(--cream);
+}
+
+.originalBtn {
+  width: 150px;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--blue-black);
+  margin-left: 10px;
+  padding: 2px;
+  font-weight: 700;
+  color: var(--cream);
+  border-radius: 5px;
+  margin-top: 10px;
+  background-color: var(--blue-black-2);
+}
+
+.playerSection {
+  display: flex;
+  overflow: hidden;
+  background-color: var(--cream);
+}
+
+.playerContainer {
+  border: 1px solid var(--cream-2);
+  flex-grow: 1;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--cream);
+}
+
+.playerWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  gap: 6px;
+  overflow-x: visible;
+  padding: 0px 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.playerBox {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background-color: var(--cream);
+  width: 560px;
+  height: 320px;
+}
+
+.player {
+  width: 100%;
+  height: 100%;
+}
+
+/* Timeline */
+.timelineSection {
+  height: 14.3rem;
+  bottom: 0;
+  background-color: var(--blue-black-2);
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #374151;
+  border-bottom-left-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.timelineSection.hide {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  position: absolute;
+}
+
+.timelineControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #374151;
+  padding: 1rem;
+}
+
+.controlsGroup {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.addClipBox {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+.addClipBox input::file-selector-button {
+  border: none;
+  padding: 4px;
+  background-color: var(--lavender);
+  border-radius: 5px;
+  color: var(--charcoal);
+  font-weight: 600;
+}
+
+.addButton {
+  background-color: #374151;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+.addButton:hover {
+  background-color: #4b5563;
+}
+
+.buttonIcon {
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+.buttonText {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.timelineContent {
+  background-color: #1f2937;
+  border-radius: 0.5rem;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  position: relative;
+  cursor: not-allowed;
+}
+
+.timelineInner {
+  position: absolute;
+  inset: 0;
+}
+
+.timelineScrollable {
+  top: 2.5rem;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 0.5rem;
+}
+
+.timelineGrid {
+  gap: 1rem;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.timelineRow {
+  height: 2.5rem;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 0;
+}
+
+.timelineRowInner {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0.125rem;
+}
+
+.timelineTrack1 {
+  flex-grow: 1;
+  background: var(--cream);
+  border-radius: 0.125rem;
+}
+.timelineTrack2 {
+  flex-grow: 1;
+  background: var(--cream-2);
+  border-radius: 0.125rem;
+}
+
+/* Timeline Items */
+.timelineItem {
+  position: absolute;
+  height: 2.5rem;
+  border-radius: 0.375rem;
+}
+
+.clipItem {
+  background-color: var(--lavender);
+}
+
+.textItem {
+  background-color: var(--picton-blue);
+}
+
+.itemLabel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: white;
+  font-weight: 600;
+}
+
+/* Timeline Marker */
+.timelineMarker {
+  position: absolute;
+  top: 0;
+  width: 1.4px;
+  background-color: var(--buff);
+  pointer-events: none;
+  z-index: 50;
+  transform: translateX(-50%);
+  height: 150px;
+  top: 0px;
+}
+
+.markerArrow {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 12px solid var(--buff);
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.textOverlay {
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  transform: translate(-55%, -350%);
+  width: 100%;
+  text-align: center;
+  background-color: red;
+}
+
+.textOverlayContent {
+  color: white;
+
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Mobile View */
+.mobileContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #111827;
+  color: white;
+  padding: 1rem;
+}
+
+.mobileContent {
+  text-align: center;
+}
+
+.mobileTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.mobileText {
+  font-size: 1rem;
+}

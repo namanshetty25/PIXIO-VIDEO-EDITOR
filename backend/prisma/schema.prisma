@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id       Int        @id @default(autoincrement())
+  username String
+  email    String     @unique
+  password String
+  user     Videos[]
+  objects  Objects[]
+  projects Projects[]
+}
+
+model Videos {
+  id         Int      @id @default(autoincrement())
+  project_id Int
+  video_url  String   @unique
+  video_name String?
+  user_id    Int
+  createdAt  DateTime @default(now())
+
+  user    Users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  project Projects @relation(fields: [project_id], references: [id])
+  edits   Edited[]
+}
+
+model Edited {
+  id         Int    @id @default(autoincrement())
+  project_id Int
+  edited_url String @unique
+  video_id   Int
+
+  edited Projects @relation(fields: [project_id], references: [id])
+  edits  Videos   @relation(fields: [video_id], references: [id])
+}
+
+model Projects {
+  id      Int     @id @default(autoincrement())
+  name    String?
+  user_id Int
+
+  user   Users    @relation(fields: [user_id], references: [id])
+  videos Videos[]
+  edited Edited[]
+}
+
+model Objects {
+  id         Int    @id @default(autoincrement())
+  object_url String @unique
+  user_id    Int
+
+  user Users @relation(fields: [user_id], references: [id])
+}

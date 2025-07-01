@@ -1,0 +1,268 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  --buff: #d4aa8bff;
+  --rich-black: #00171fff;
+  --rich-black-2: #132029ff;
+  --charcoal: #003459ff;
+  --light-green: #cf4176ff;
+  --orchid-pink: #e3b5c6ff;
+  --moss-green: #007da6ff;
+  --light-green: #00a8e7ff;
+
+  --picton-blue: #00a8e7ff;
+  --cerulean: #007da6ff;
+  --rich-black: #00171fff;
+  --white: #ffffffff;
+  --prussian-blue: #003459ff;
+
+  font-family: Inter, sans-serif;
+}
+
+.container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.companyName {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--light-green);
+  padding: 0.5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.img {
+  display: none;
+}
+
+.box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 32rem;
+  margin: 0 auto;
+}
+
+.toggleContainer {
+  display: flex;
+  background-color: #f3f4f6;
+  border-radius: 0.75rem;
+  padding: 0.25rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 24rem;
+}
+
+.toggleBtn {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: transparent;
+  color: #6b7280;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.toggleBtn.active {
+  background-color: #ffffff;
+  color: #1f2937;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 24rem;
+}
+
+.formContainer h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.formContainer p {
+  color: #6b7280;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.nameRow {
+  display: flex;
+  gap: 1rem;
+}
+
+.inputGroup {
+  flex: 1;
+}
+
+.inputGroup input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+  transition: all 0.2s;
+  font-size: 0.875rem;
+}
+
+.inputGroup input:focus {
+  outline: none;
+  border-color: var(--light-green);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.passwordContainer {
+  position: relative;
+  width: 100%;
+}
+
+.passwordContainer input {
+  padding-right: 3rem;
+}
+
+.eyeBtn {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.eyeBtn:hover {
+  color: #374151;
+}
+
+.forgotPassword {
+  text-align: right;
+  margin-top: -0.5rem;
+}
+
+.forgotPassword a {
+  color: var(--light-green);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.forgotPassword a:hover {
+  color: var(--light-green);
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background-color: var(--light-green);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 0.5rem;
+}
+
+.submitBtn:hover {
+  background-color: var(--cerulean);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px #8a8a8a;
+  transition: 0.3s ease;
+}
+
+.switchMode {
+  margin-top: 2rem;
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.switchMode button {
+  color: var(--light-green);
+  background: none;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.switchMode button:hover {
+  color: var(--cerulean);
+}
+
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
+  }
+
+  .img {
+    display: block;
+    width: 50%;
+    height: 100vh;
+    object-fit: cover;
+  }
+
+  .box {
+    width: 50%;
+    padding: 2rem;
+  }
+
+  .divider span {
+    background-color: #ffffff;
+  }
+}
+
+@media (max-width: 640px) {
+  .nameRow {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .companyName {
+    padding: 1.5rem;
+    font-size: 1.25rem;
+  }
+
+  .box {
+    padding: 1rem;
+  }
+
+  .formContainer {
+    max-width: none;
+  }
+
+  .toggleContainer {
+    max-width: none;
+  }
+}

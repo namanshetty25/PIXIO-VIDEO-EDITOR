@@ -1,0 +1,70 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  --buff: #d4aa8bff;
+  --blue-black: #000d11;
+  --blue-black-2: #132029ff;
+  --fuchsia-rose: #cf4176ff;
+  --orchid-pink: #e3b5c6ff;
+  --cerulean: #007da6ff;
+  --cream: #f7f7f7;
+  --cream-2: #f0f0f0;
+  --picton-blue: #00a8e7ff;
+  --white: #ffffffff;
+  --lavender: #667eea;
+  --prussian-blue: #003459ff;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+}
+
+.container {
+  min-height: 100vh;
+  width: 17%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  color: var(--cream);
+  background: var(--blue-black);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 1rem;
+  padding: 20px 15px;
+  padding-top: 4rem;
+}
+
+ul .menu {
+  background-color: transparent;
+  color: var(--cream);
+  font-weight: 500;
+  text-transform: uppercase;
+  font-family: "Inter", sans-serif;
+  border: none;
+  width: 100%;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 0.75rem;
+  transition: 0.3s ease;
+  border: solid 2px var(--blue-black);
+}
+
+.menu:hover {
+  background-color: var(--lavender);
+  cursor: pointer;
+}
+.menu.active {
+  background-color: var(--cream);
+  color: var(--blue-black);
+  border: solid 2px var(--cream);
+}
+
+@media (max-width: 895px) {
+  .container {
+    display: none;
+  }
+}

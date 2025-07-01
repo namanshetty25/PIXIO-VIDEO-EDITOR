@@ -1,0 +1,322 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  --buff: #d4aa8bff;
+  --blue-black: #000d11;
+  --blue-black-2: #132029ff;
+  --fuchsia-rose: #cf4176ff;
+  --orchid-pink: #e3b5c6ff;
+  --cerulean: #007da6ff;
+  --cream: #f7f7f7;
+  --cream-2: #f0f0f0;
+  --picton-blue: rgb(105, 192, 224);
+  --white: #ffffffff;
+  --prussian-blue: #003459ff;
+  --lavender: #49a3ec;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+}
+
+::-webkit-scrollbar {
+  background: var(--blue-black-2);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--blue-black);
+  border: 3px solid var(--blue-black-2);
+  border-radius: 50px;
+}
+
+.container {
+  height: 100vh;
+  width: 19%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  color: var(--cream);
+  background: var(--blue-black-2);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 1rem;
+  padding: 20px 15px;
+  padding-top: 4rem;
+  overflow-y: scroll;
+  top: 0;
+  bottom: 0;
+}
+
+button {
+  cursor: pointer;
+}
+
+ul .menu {
+  background-color: transparent;
+  color: var(--cream);
+  font-weight: 500;
+  text-transform: uppercase;
+  font-family: "Inter", sans-serif;
+  border: none;
+  width: 100%;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 0.75rem;
+  transition: 0.3s ease;
+  border: solid 2px var(--blue-black-2);
+}
+
+.menu:hover {
+  background-color: var(--lavender);
+  cursor: pointer;
+}
+.menu.active {
+  background-color: var(--cream);
+  color: var(--blue-black-2);
+  border: solid 2px var(--cream);
+}
+
+.modeButtons {
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: row;
+}
+
+.modeButtons button {
+  border: none;
+  background-color: var(--picton-blue);
+  margin: 2px;
+  padding: 4px;
+  width: 48%;
+  gap: 4px;
+  border-radius: 5px;
+  transition: 0.3s ease;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.modeButtons button:hover {
+  box-shadow: 2px 2px var(--lavender);
+}
+
+.modeDescription {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: none;
+  background-color: var(--cream);
+  color: var(--prussian-blue);
+  border-radius: 5px;
+  padding: 2px;
+}
+
+.audioForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.audioTools {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.settingsCheck {
+  transform: scale(1.5);
+}
+.settingsCheck:checked {
+  accent-color: var(--lavender);
+}
+
+.toolActions {
+  display: flex;
+  flex-direction: row;
+}
+
+.toolActions button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3px;
+  margin: 3px;
+  margin-top: 5px;
+  color: black;
+  height: 30px;
+  width: 47.8%;
+  padding: 2px;
+  margin-right: 2px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--picton-blue);
+  transition: 0.3s ease;
+}
+
+.toolActions button:hover,
+.modeActive {
+  box-shadow: 2px 2px var(--lavender);
+}
+
+.lassoActivateBtn {
+  margin: 3px;
+  margin-top: 5px;
+  height: 30px;
+  width: 98%;
+  padding: 2px;
+  margin-right: 2px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--cream);
+  transition: 0.3s ease;
+}
+
+.lassoActivateBtn:hover {
+  background-color: var(--lavender);
+}
+
+.detectedObjects {
+  display: flex;
+  flex-direction: column;
+}
+
+.objectsList {
+  font-size: 0.875rem;
+  background-color: var(--prussian-blue);
+  border-radius: 5px;
+  padding: 2px 5px;
+  margin: 5px;
+  align-self: center;
+  color: var(--cerulean);
+}
+
+.clearBtn {
+  border: 0px;
+  border-radius: 5px;
+  background-color: var(--prussian-blue);
+  color: var(--cream);
+  padding: 5px;
+  transition: 0.3s ease;
+}
+
+.clearBtn:hover {
+  background-color: var(--cerulean);
+}
+
+.settingLabel {
+  font-size: 0.875rem;
+  font-weight: 400;
+  text-transform: none;
+  margin: 2px;
+  margin-bottom: 4px;
+}
+
+.filterGrid {
+  margin: 10px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.filterBtn {
+  border: none;
+  padding: 3px;
+  background-color: var(--cream-2);
+  border-radius: 4px;
+  transition: 0.3s ease;
+  color: var(--blue-black);
+}
+
+.filterBtn:hover,
+.filterBtn.active {
+  background-color: var(--picton-blue);
+  color: var(--cream-2);
+}
+
+.settingValue {
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-transform: none;
+  margin: 2px;
+}
+
+.settingSlider {
+  appearance: none;
+  background: var(--picton-blue);
+  outline: none;
+  height: 12px;
+  margin-right: 3px;
+  border-radius: 50px;
+}
+
+.settingSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50px;
+
+  background-color: var(--blue-black);
+}
+
+.styleGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+  margin-bottom: 100px;
+  margin-left: 10px;
+}
+
+.noStyle {
+  display: flex;
+  gap: 6px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-left: 2px;
+  border: 2px solid var(--cream);
+  background-color: var(--cream);
+  padding: 6px;
+  border-radius: 5px;
+  transition: 0.1s linear;
+}
+
+.noStyle:hover,
+.noStyleactive {
+  border: 4px solid var(--lavender);
+  background-color: var(--lavender);
+}
+
+.styleImg {
+  border: 2px solid var(--blue-black);
+  border-radius: 5px;
+  height: 130px;
+  transition: 0.3s ease;
+}
+
+.styleImg img {
+  width: 94%;
+  height: 120px;
+  object-fit: cover;
+  border: none;
+}
+
+.styleImg:hover {
+  border: 2px solid var(--cream);
+}
+
+.styleImgactive {
+  box-shadow: 3px 3px var(--picton-blue);
+}
+
+@media (max-width: 895px) {
+  .container {
+    display: none;
+  }
+}
