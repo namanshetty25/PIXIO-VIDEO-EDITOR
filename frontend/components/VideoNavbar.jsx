@@ -1,11 +1,13 @@
-import { useState } from "react";
 import styles from "./VideoNavbar.module.css";
-import { User, Plus } from "lucide-react";
+import { User } from "lucide-react";
 
 const VideoNavbar = () => {
   return (
     <section className={styles.container}>
-      <div className={styles.companyName}>Gen-AI Video Editor</div>
+      <div className={styles.companyName}>
+        <img src="/icon.svg" width={50} />
+        PIXIO
+      </div>
 
       <div className={styles.options}>
         <button className={styles.userButton}>

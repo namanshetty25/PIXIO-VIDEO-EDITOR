@@ -2,18 +2,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  --buff: #d4aa8bff;
-  --blue-black: #000d11;
-  --blue-black-2: #132029ff;
-  --fuchsia-rose: #cf4176ff;
-  --orchid-pink: #e3b5c6ff;
-  --cerulean: #007da6ff;
-  --cream: #f7f7f7;
-  --cream-2: #f0f0f0;
-  --picton-blue: #00a8e7ff;
-  --white: #ffffffff;
-  --prussian-blue: #003459ff;
-  --lavender: #667eea;
   font-family: Inter, sans-serif;
 }
 
@@ -24,7 +12,9 @@
   padding: 1rem 2rem;
   padding-left: 0.75rem;
   padding-bottom: 1rem;
-  background: var(--blue-black);
+  background-image: url("../public/navbar_hero.jpg");
+  background-size: cover;
+  background-position: center;
   color: var(--cream);
   height: 55px;
   position: sticky;
@@ -33,9 +23,12 @@
 }
 
 .companyName {
-  font-size: 1.5rem;
+  display: flex;
+  padding-top: 12px;
+  gap: 10px;
+  font-size: 3.2rem;
   font-weight: 700;
-  color: #667eea;
+  color: #b882f7;
   text-transform: uppercase;
 }
 
@@ -51,8 +44,8 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1.5rem;
-  background: var(--lavender);
-  color: white;
+  background: #a665f19a;
+  color: #b882f7;
   border: none;
   border-radius: 0.75rem;
   font-weight: 500;
@@ -64,7 +57,7 @@
 
 .createButton:hover,
 .createButton:active {
-  background: var(--lavender);
+  background: #aa75e7be;
 }
 
 .userButton {
@@ -73,9 +66,9 @@
   justify-content: center;
   width: 2rem;
   height: 2rem;
-  background: var(--lavender);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #a665f19a;
+  color: #b882f7;
+  border: 1px solid #000000;
   border-radius: 50%;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
@@ -84,8 +77,8 @@
 
 .userButton:hover,
 .userButton:active {
-  background: var(--blue-black);
-  border: 1px solid #f7f7f7;
+  background: #aa75e7be;
+  border: 1px solid #000000;
 }
 
 .icon {

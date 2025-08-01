@@ -2,18 +2,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  --buff: #d4aa8bff;
-  --blue-black: #000d11;
-  --blue-black-2: #132029ff;
-  --fuchsia-rose: #cf4176ff;
-  --orchid-pink: #e3b5c6ff;
-  --cerulean: #007da6ff;
-  --cream: #f7f7f7;
-  --cream-2: #f0f0f0;
-  --picton-blue: #00a8e7ff;
-  --white: #ffffffff;
-  --lavender: #667eea;
-  --prussian-blue: #003459ff;
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
 }
@@ -25,7 +13,7 @@
   flex-direction: column;
   position: relative;
   color: var(--cream);
-  background: var(--blue-black);
+  background: black;
   font-weight: 600;
   text-transform: uppercase;
   font-size: 1rem;
@@ -35,7 +23,7 @@
 
 ul .menu {
   background-color: transparent;
-  color: var(--cream);
+  color: #b882f7;
   font-weight: 500;
   text-transform: uppercase;
   font-family: "Inter", sans-serif;
@@ -50,17 +38,18 @@ ul .menu {
   padding: 10px;
   border-radius: 0.75rem;
   transition: 0.3s ease;
-  border: solid 2px var(--blue-black);
+  border: solid 2px black;
 }
 
 .menu:hover {
-  background-color: var(--lavender);
+  background-color: #b581f19a;
+  color: #c39eee;
   cursor: pointer;
 }
 .menu.active {
-  background-color: var(--cream);
-  color: var(--blue-black);
-  border: solid 2px var(--cream);
+  background-color: #202020;
+  color: #c39eee;
+  border: solid 2px #b882f7;
 }
 
 @media (max-width: 895px) {

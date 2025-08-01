@@ -1,38 +1,7 @@
-import React, { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback } from "react";
 
 const ClickableBox = ({ isActive, videoElement, onClickAt, onCancel }) => {
   const overlayRef = useRef(null);
-
-  // Position overlay over video element
-  // useEffect(() => {
-  //   if (videoElement && overlayRef.current && isActive) {
-  //     const updatePosition = () => {
-  //       const rect = videoElement.getBoundingClientRect();
-  //       const overlay = overlayRef.current;
-
-  //       if (overlay) {
-  //         overlay.style.position = "fixed";
-  //         overlay.style.left = `${rect.left}px`;
-  //         overlay.style.top = `${rect.top}px`;
-  //         overlay.style.width = `${rect.width}px`;
-  //         overlay.style.height = `${rect.height}px`;
-  //         overlay.style.zIndex = "1000";
-  //       }
-  //     };
-
-  //     updatePosition();
-
-  //     // Update position on window resize or scroll
-  //     window.addEventListener("resize", updatePosition);
-  //     window.addEventListener("scroll", updatePosition);
-
-  //     return () => {
-  //       window.removeEventListener("resize", updatePosition);
-  //       window.removeEventListener("scroll", updatePosition);
-  //     };
-  //   }
-  // }, [videoElement, isActive]);
-
   useEffect(() => {
     if (!videoElement || !overlayRef.current || !isActive) return;
 
@@ -51,14 +20,11 @@ const ClickableBox = ({ isActive, videoElement, onClickAt, onCancel }) => {
       });
     };
 
-    // Initial update after DOM is ready
     updatePosition();
 
-    // Watch for resize changes on the video
     const resizeObserver = new ResizeObserver(updatePosition);
     resizeObserver.observe(videoElement);
 
-    // Also listen for window resize/scroll
     window.addEventListener("resize", updatePosition);
     window.addEventListener("scroll", updatePosition, true);
 
@@ -69,7 +35,6 @@ const ClickableBox = ({ isActive, videoElement, onClickAt, onCancel }) => {
     };
   }, [videoElement, isActive]);
 
-  // Handle click events and calculate relative coordinates
   const handleClick = useCallback(
     (e) => {
       if (!overlayRef.current || !videoElement) return;
@@ -77,7 +42,6 @@ const ClickableBox = ({ isActive, videoElement, onClickAt, onCancel }) => {
       const overlayRect = overlayRef.current.getBoundingClientRect();
       const videoRect = videoElement.getBoundingClientRect();
 
-      // Calculate coordinates relative to the video's natural dimensions
       const relativeX = (e.clientX - overlayRect.left) / overlayRect.width;
       const relativeY = (e.clientY - overlayRect.top) / overlayRect.height;
 
@@ -91,7 +55,6 @@ const ClickableBox = ({ isActive, videoElement, onClickAt, onCancel }) => {
     [onClickAt, videoElement]
   );
 
-  // Handle escape key to cancel
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape" && isActive) {

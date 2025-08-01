@@ -2,40 +2,28 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  --buff: #d4aa8bff;
-  --blue-black: #000d11;
-  --blue-black-2: #132029ff;
-  --fuchsia-rose: #cf4176ff;
-  --orchid-pink: #e3b5c6ff;
-  --cerulean: #007da6ff;
-  --cream: #f7f7f7;
-  --cream-2: #f0f0f0;
-  --picton-blue: rgb(105, 192, 224);
-  --white: #ffffffff;
-  --prussian-blue: #003459ff;
-  --lavender: #49a3ec;
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
 }
 
 ::-webkit-scrollbar {
-  background: var(--blue-black-2);
+  background: black;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--blue-black);
-  border: 3px solid var(--blue-black-2);
+  background-color: black;
+  border: 3px solid black;
   border-radius: 50px;
 }
 
 .container {
   height: 100vh;
-  width: 19%;
+  width: 17%;
   display: flex;
   flex-direction: column;
   position: relative;
-  color: var(--cream);
-  background: var(--blue-black-2);
+  color: #c39eee;
+  background: black;
   font-weight: 600;
   text-transform: uppercase;
   font-size: 1rem;
@@ -50,9 +38,25 @@ button {
   cursor: pointer;
 }
 
+.exportBtn {
+  padding: 10px;
+  display: flex;
+  gap: 4px;
+  margin: 5px 5px 15px 5px;
+  color: #1d1c1c;
+  font-weight: 600;
+  letter-spacing: 1px;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  background-color: #b882f7;
+  border-radius: 10px;
+  border: 2px solid #9853e7;
+}
+
 ul .menu {
   background-color: transparent;
-  color: var(--cream);
+  color: #c39eee;
   font-weight: 500;
   text-transform: uppercase;
   font-family: "Inter", sans-serif;
@@ -67,17 +71,18 @@ ul .menu {
   padding: 10px;
   border-radius: 0.75rem;
   transition: 0.3s ease;
-  border: solid 2px var(--blue-black-2);
+  border: solid 2px black;
 }
 
 .menu:hover {
-  background-color: var(--lavender);
+  background-color: #b581f19a;
+  color: #c39eee;
   cursor: pointer;
 }
 .menu.active {
-  background-color: var(--cream);
-  color: var(--blue-black-2);
-  border: solid 2px var(--cream);
+  background-color: #202020;
+  color: #c39eee;
+  border: solid 2px #b882f7;
 }
 
 .modeButtons {
@@ -88,7 +93,7 @@ ul .menu {
 
 .modeButtons button {
   border: none;
-  background-color: var(--picton-blue);
+  background-color: #b882f7;
   margin: 2px;
   padding: 4px;
   width: 48%;
@@ -101,17 +106,17 @@ ul .menu {
 }
 
 .modeButtons button:hover {
-  box-shadow: 2px 2px var(--lavender);
+  box-shadow: 2px 2px #a964f7cb;
 }
 
 .modeDescription {
   font-size: 0.75rem;
   font-weight: 500;
   text-transform: none;
-  background-color: var(--cream);
-  color: var(--prussian-blue);
+  background-color: #212121;
+  color: #b88fe7fb;
   border-radius: 5px;
-  padding: 2px;
+  padding: 5px;
 }
 
 .audioForm {
@@ -132,7 +137,7 @@ ul .menu {
   transform: scale(1.5);
 }
 .settingsCheck:checked {
-  accent-color: var(--lavender);
+  accent-color: #a964f7cb;
 }
 
 .toolActions {
@@ -140,72 +145,111 @@ ul .menu {
   flex-direction: row;
 }
 
-.toolActions button {
+.previewBtn {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   gap: 3px;
   margin: 3px;
   margin-top: 5px;
   color: black;
   height: 30px;
-  width: 47.8%;
+  width: 97%;
   padding: 2px;
   margin-right: 2px;
   border: none;
   border-radius: 5px;
-  background-color: var(--picton-blue);
+  background-color: #b882f7;
   transition: 0.3s ease;
 }
 
-.toolActions button:hover,
+.previewBtn:hover,
 .modeActive {
-  box-shadow: 2px 2px var(--lavender);
+  box-shadow: 2px 2px #a964f7cb;
 }
 
 .lassoActivateBtn {
   margin: 3px;
   margin-top: 5px;
   height: 30px;
-  width: 98%;
+  width: 96%;
   padding: 2px;
   margin-right: 2px;
   border: none;
   border-radius: 5px;
-  background-color: var(--cream);
+  color: #212121;
+  background-color: #ac67fa98;
   transition: 0.3s ease;
 }
 
 .lassoActivateBtn:hover {
-  background-color: var(--lavender);
+  background-color: #a964f7cb;
 }
 
 .detectedObjects {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .objectsList {
   font-size: 0.875rem;
-  background-color: var(--prussian-blue);
+  background-color: #a665f19a;
   border-radius: 5px;
   padding: 2px 5px;
   margin: 5px;
   align-self: center;
-  color: var(--cerulean);
+  color: #c5a8e7cb;
+}
+
+.bgOuter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.bgAddBox {
+  display: flex;
+  background-color: #212121;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 5px;
+  padding: 5px;
+  width: 96%;
+}
+
+.bgAddBox button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 5px;
+  background-color: #a665f19a;
+  color: #c39eee;
+}
+
+.bgAddBox input::file-selector-button {
+  border: none;
+  padding: 4px;
+  background-color: #a665f19a;
+  border-radius: 5px;
+  color: #b882f7;
+  font-weight: 600;
 }
 
 .clearBtn {
   border: 0px;
   border-radius: 5px;
-  background-color: var(--prussian-blue);
-  color: var(--cream);
+  background-color: #a665f19a;
+  color: #c39eee;
   padding: 5px;
   transition: 0.3s ease;
 }
 
 .clearBtn:hover {
-  background-color: var(--cerulean);
+  background-color: #212121;
 }
 
 .settingLabel {
@@ -226,15 +270,15 @@ ul .menu {
 .filterBtn {
   border: none;
   padding: 3px;
-  background-color: var(--cream-2);
+  background-color: #212121;
   border-radius: 4px;
   transition: 0.3s ease;
-  color: var(--blue-black);
+  color: #b882f7;
 }
 
 .filterBtn:hover,
 .filterBtn.active {
-  background-color: var(--picton-blue);
+  background-color: #b882f7;
   color: var(--cream-2);
 }
 
@@ -243,11 +287,16 @@ ul .menu {
   font-weight: 400;
   text-transform: none;
   margin: 2px;
+  width: 70px;
+}
+
+.settingValue span {
+  color: #525252;
 }
 
 .settingSlider {
   appearance: none;
-  background: var(--picton-blue);
+  background: #c797fd;
   outline: none;
   height: 12px;
   margin-right: 3px;
@@ -261,7 +310,7 @@ ul .menu {
   height: 12px;
   border-radius: 50px;
 
-  background-color: var(--blue-black);
+  background-color: #4f2e75;
 }
 
 .styleGrid {
@@ -269,7 +318,7 @@ ul .menu {
   flex-direction: column;
   gap: 10px;
   margin-top: 20px;
-  margin-bottom: 100px;
+  margin-bottom: 20px;
   margin-left: 10px;
 }
 
@@ -280,8 +329,8 @@ ul .menu {
   align-items: center;
   justify-content: center;
   margin-left: 2px;
-  border: 2px solid var(--cream);
-  background-color: var(--cream);
+  border: 2px solid #212121;
+  background-color: #212121;
   padding: 6px;
   border-radius: 5px;
   transition: 0.1s linear;
@@ -289,15 +338,16 @@ ul .menu {
 
 .noStyle:hover,
 .noStyleactive {
-  border: 4px solid var(--lavender);
-  background-color: var(--lavender);
+  border: 4px solid #a964f7cb;
+  background-color: #a964f7cb;
 }
 
 .styleImg {
-  border: 2px solid var(--blue-black);
+  border: 2px solid black;
   border-radius: 5px;
   height: 130px;
   transition: 0.3s ease;
+  background-color: #302f31;
 }
 
 .styleImg img {
@@ -308,11 +358,11 @@ ul .menu {
 }
 
 .styleImg:hover {
-  border: 2px solid var(--cream);
+  border: 2px solid #212121;
 }
 
 .styleImgactive {
-  box-shadow: 3px 3px var(--picton-blue);
+  box-shadow: 3px 3px #b882f7;
 }
 
 @media (max-width: 895px) {

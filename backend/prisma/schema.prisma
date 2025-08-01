@@ -15,6 +15,7 @@ model Users {
   user     Videos[]
   objects  Objects[]
   projects Projects[]
+  gifs     Gif[]
 }
 
 model Videos {
@@ -27,17 +28,6 @@ model Videos {
 
   user    Users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
   project Projects @relation(fields: [project_id], references: [id])
-  edits   Edited[]
-}
-
-model Edited {
-  id         Int    @id @default(autoincrement())
-  project_id Int
-  edited_url String @unique
-  video_id   Int
-
-  edited Projects @relation(fields: [project_id], references: [id])
-  edits  Videos   @relation(fields: [video_id], references: [id])
 }
 
 model Projects {
@@ -47,7 +37,16 @@ model Projects {
 
   user   Users    @relation(fields: [user_id], references: [id])
   videos Videos[]
-  edited Edited[]
+}
+
+model Gif {
+  id Int @id @default(autoincrement())
+  video_url  String   @unique
+  video_name String?
+  user_id    Int
+  createdAt  DateTime @default(now())
+
+  userGif Users @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model Objects {

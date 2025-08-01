@@ -1,12 +1,8 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
 import LogIn from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
-import { Router, Routes, Route, BrowserRouter } from "react-router-dom";
-import SettingsPage from "../pages/SettingsPage";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import VideoEditor from "../pages/VideoEditor";
+import Generate from "../pages/Generate";
 
 function App() {
   return (
@@ -15,7 +11,7 @@ function App() {
         <Route path="/" element={<LogIn />} />
         <Route path="/video" element={<VideoEditor />} />
         <Route path="/home" element={<Dashboard />} />
-        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/generate" element={<Generate />} />
       </Routes>
     </BrowserRouter>
   );

@@ -2,21 +2,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  --buff: #d4aa8bff;
-  --rich-black: #00171fff;
-  --rich-black-2: #132029ff;
-  --charcoal: #003459ff;
-  --light-green: #cf4176ff;
-  --orchid-pink: #e3b5c6ff;
-  --moss-green: #007da6ff;
-  --light-green: #00a8e7ff;
-
-  --picton-blue: #00a8e7ff;
-  --cerulean: #007da6ff;
-  --rich-black: #00171fff;
-  --white: #ffffffff;
-  --prussian-blue: #003459ff;
-
   font-family: Inter, sans-serif;
 }
 
@@ -26,12 +11,13 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  background-color: #1a1919;
 }
 
 .companyName {
   font-size: 1rem;
   font-weight: 700;
-  color: var(--light-green);
+  color: #b882f7;
   padding: 0.5rem;
   position: absolute;
   top: 0;
@@ -57,7 +43,7 @@
 
 .toggleContainer {
   display: flex;
-  background-color: #f3f4f6;
+  background-color: #212121;
   border-radius: 0.75rem;
   padding: 0.25rem;
   margin-bottom: 2rem;
@@ -78,7 +64,7 @@
 }
 
 .toggleBtn.active {
-  background-color: #ffffff;
+  background-color: #b371ffc4;
   color: #1f2937;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
@@ -91,13 +77,13 @@
 .formContainer h1 {
   font-size: 1.875rem;
   font-weight: 700;
-  color: #1f2937;
+  color: #a257f8;
   margin-bottom: 0.5rem;
   text-align: center;
 }
 
 .formContainer p {
-  color: #6b7280;
+  color: #c7a4f0;
   margin-bottom: 2rem;
   text-align: center;
 }
@@ -121,16 +107,18 @@
 .inputGroup input {
   width: 100%;
   padding: 0.875rem 1rem;
-  border: 1px solid #e5e7eb;
+  color: #fff;
+  border: 1px solid #666666;
   border-radius: 0.5rem;
-  background-color: #ffffff;
+  background-color: #212121;
   transition: all 0.2s;
   font-size: 0.875rem;
 }
 
 .inputGroup input:focus {
   outline: none;
-  border-color: var(--light-green);
+  border-color: #b882f7;
+  background-color: #625074;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
@@ -169,7 +157,7 @@
 }
 
 .forgotPassword a {
-  color: var(--light-green);
+  color: #b882f7;
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 500;
@@ -177,13 +165,13 @@
 }
 
 .forgotPassword a:hover {
-  color: var(--light-green);
+  color: #b882f7;
 }
 
 .submitBtn {
   width: 100%;
   padding: 0.875rem 1rem;
-  background-color: var(--light-green);
+  background-color: #9643f5c0;
   color: white;
   border: none;
   border-radius: 0.5rem;
@@ -195,9 +183,9 @@
 }
 
 .submitBtn:hover {
-  background-color: var(--cerulean);
+  background-color: rgba(146, 97, 201, 0.904) c0;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px #8a8a8a;
+  box-shadow: 0 4px 12px #202020;
   transition: 0.3s ease;
 }
 
@@ -209,7 +197,7 @@
 }
 
 .switchMode button {
-  color: var(--light-green);
+  color: #b882f7;
   background: none;
   border: none;
   font-weight: 600;
@@ -218,7 +206,7 @@
 }
 
 .switchMode button:hover {
-  color: var(--cerulean);
+  color: #b882f7;
 }
 
 @media (min-width: 768px) {

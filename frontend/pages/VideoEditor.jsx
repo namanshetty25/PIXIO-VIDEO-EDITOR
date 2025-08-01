@@ -6,11 +6,11 @@ import styles from "./VideoEditor.module.css";
 
 import VideoNavbar from "../components/VideoNavbar";
 import VideoSidebar from "../components/VideoSidebar";
-import Toastify from "toastify-js";
+import toast, { Toaster } from "react-hot-toast";
 import { flushSync } from "react-dom";
 import { useLocation } from "react-router-dom";
-import { PacmanLoader } from "react-spinners";
-
+import { ScaleLoader } from "react-spinners";
+import { motion } from "framer-motion";
 const TimelineMarker = ({ currentFrame, totalDuration }) => {
   const markerPosition = useMemo(() => {
     return `${(currentFrame / totalDuration) * 100}%`;
@@ -36,7 +36,6 @@ const VideoEditor = () => {
     console.log(location);
   }, []);
 
-  // State management
   const [ready, setReady] = useState(false);
   const [clips, setClips] = useState([]);
   const [totalDuration, setTotalDuration] = useState(1);
@@ -45,12 +44,8 @@ const VideoEditor = () => {
   const [showOriginal, setShowOriginal] = useState(false);
   const [originalClip, setOriginalClip] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-
-  // Filter state
   const [selectedFilter, setSelectedFilter] = useState("none");
   const [customFilterSettings, setCustomFilterSettings] = useState(null);
-
-  // Refs
   const playerRef = useRef(null);
   const timelineRef = useRef(null);
   const uneditedRef = useRef(null);
@@ -62,7 +57,8 @@ const VideoEditor = () => {
     );
   };
 
-  console.log("CURRENT CLIP: ", getCurrentlyPlayingClip());
+  //console.log("CURRENT CLIP: ", getCurrentlyPlayingClip());
+  console.log("clips array: ", clips);
 
   const addClip = async (e) => {
     e.preventDefault();
@@ -72,7 +68,14 @@ const VideoEditor = () => {
       const selected = inputRef.current.files[0];
       const token = localStorage.getItem("token");
       const project_id = localStorage.getItem("project_id");
-      if (!selected) return alert("Please select a video file first.");
+      if (!selected)
+        return toast.error("Please select a video file first.", {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#b882f7",
+          },
+        });
       const formdata = new FormData();
       formdata.append("file", selected);
       const uploadRes = await fetch(
@@ -123,7 +126,13 @@ const VideoEditor = () => {
             const updated = [...prev, newClip];
             updateTotalDuration(updated);
             video.remove();
-            alert("Clip added");
+            toast.success("Clip added", {
+              style: {
+                borderRadius: "10px",
+                background: "#333",
+                color: "#b882f7",
+              },
+            });
             return updated;
           });
         });
@@ -143,7 +152,13 @@ const VideoEditor = () => {
       setClips(newClips);
       updateTotalDuration(newClips);
     } else {
-      alert("Cannot remove only one clip!");
+      toast.error("Cannot remove only one clip.", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#b882f7",
+        },
+      });
     }
   };
 
@@ -157,29 +172,62 @@ const VideoEditor = () => {
     setTotalDuration(newTotalDuration);
   };
 
+  const exportVideo = async () => {
+    try {
+      setIsLoading(true);
+      const res = await fetch("http://localhost:3000/video/export", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ clips, selectedFilter, customFilterSettings }),
+      });
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "exported_video.mp4";
+      a.click();
+    } catch (e) {
+      toast.error("Exporting Failed", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#b882f7",
+        },
+      });
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleAutoRem = async () => {
-    const project_id = localStorage.getItem("project_id");
-    if (!project_id) {
-      alert("No project ID found. Please upload a video first.");
+    const currentClip = getCurrentlyPlayingClip();
+    if (!currentClip) {
+      toast.error("No clip is currently playing.", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#b882f7",
+        },
+      });
       return;
     }
 
-    const currentFrame = getCurrentlyPlayingClip();
-    console.log("User paused at frame:", playerRef.current.getCurrentFrame());
-    console.log("CURRENT FAMR INDISNDS: ", currentFrame);
+    const video_id = currentClip.id;
+    const token = localStorage.getItem("token");
+
     try {
       setIsLoading(true);
-      const token = localStorage.getItem("token");
+
       const response = await fetch("http://localhost:3000/video/auto-removal", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          project_id: location.state.project_id,
-          video_id: currentFrame.id,
-        }),
+        body: JSON.stringify({ video_id }),
       });
 
       if (!response.ok) {
@@ -187,13 +235,13 @@ const VideoEditor = () => {
         throw new Error(errorData.error || "Failed to process video");
       }
 
-      const blob = await response.blob();
-      const videoURL = URL.createObjectURL(blob);
+      const updated = await response.json();
+      console.log("response object recieved by auto removal was: ", updated);
+      const newUrl = updated.video.video_url;
 
-      // Update the current clip with the processed video
       const video = document.createElement("video");
       video.preload = "metadata";
-      video.src = videoURL;
+      video.src = newUrl;
 
       video.onloadedmetadata = () => {
         const durationInSeconds = video.duration;
@@ -201,29 +249,35 @@ const VideoEditor = () => {
         const durationInFrames = Math.round(durationInSeconds * fps);
 
         setClips((prevClips) => {
-          const updatedClips = prevClips.map((clip, index) => {
-            if (index === 0) {
-              // Update the first clip with processed video
-              return {
-                ...clip,
-                src: videoURL,
-                duration: durationInFrames,
-              };
-            }
-            return clip;
-          });
+          const updatedClips = prevClips.map((clip) =>
+            clip.id === video_id
+              ? { ...clip, src: newUrl, duration: durationInFrames }
+              : clip
+          );
           updateTotalDuration(updatedClips);
-          video.remove();
           return updatedClips;
         });
-      };
 
-      alert("Object removal completed successfully!");
+        console.log("UPDATED THE CLIP: ", video);
+        console.log("PUT THE NEW URL: ", newUrl);
+        video.remove();
+        toast("Object removal completed.", {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#b882f7",
+          },
+        });
+      };
     } catch (err) {
       console.error("Processing failed:", err.message);
-      alert(`Processing failed: ${err.message}`);
-
-      setIsLoading(false);
+      toast.error(`Processing failed: ${err.message}`, {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#b882f7",
+        },
+      });
     } finally {
       setIsLoading(false);
     }
@@ -232,7 +286,13 @@ const VideoEditor = () => {
   const handleClickRem = async (x, y) => {
     const project_id = localStorage.getItem("project_id");
     if (!project_id) {
-      alert("No project_id ID found. Please upload a video first.");
+      toast.error("No project_id ID found. Please upload a video first.", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#b882f7",
+        },
+      });
       return;
     }
     const currentFrame = getCurrentlyPlayingClip();
@@ -257,7 +317,6 @@ const VideoEditor = () => {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            project_id: location.state.project_id,
             video_id: currentFrame.id,
             x_coord: x,
             y_coord: y,
@@ -271,13 +330,13 @@ const VideoEditor = () => {
         throw new Error(errorData.error || "Failed to process video");
       }
 
-      const blob = await response.blob();
-      const videoURL = URL.createObjectURL(blob);
+      const updated = await response.json();
+      console.log("response object recieved by auto removal was: ", updated);
+      const newUrl = updated.video.video_url;
 
-      // Update the current clip with the processed video
       const video = document.createElement("video");
       video.preload = "metadata";
-      video.src = videoURL;
+      video.src = newUrl;
 
       video.onloadedmetadata = () => {
         const durationInSeconds = video.duration;
@@ -285,29 +344,35 @@ const VideoEditor = () => {
         const durationInFrames = Math.round(durationInSeconds * fps);
 
         setClips((prevClips) => {
-          const updatedClips = prevClips.map((clip, index) => {
-            if (index === 0) {
-              // Update the first clip with processed video
-              return {
-                ...clip,
-                src: videoURL,
-                duration: durationInFrames,
-              };
-            }
-            return clip;
-          });
+          const updatedClips = prevClips.map((clip) =>
+            clip.id === currentFrame.id
+              ? { ...clip, src: newUrl, duration: durationInFrames }
+              : clip
+          );
           updateTotalDuration(updatedClips);
-          video.remove();
           return updatedClips;
         });
-      };
 
-      alert("Object removal with click completed successfully!");
+        console.log("UPDATED THE CLIP: ", video);
+        console.log("PUT THE NEW URL: ", newUrl);
+        video.remove();
+        toast.success("Object removal completed.", {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#b882f7",
+          },
+        });
+      };
     } catch (err) {
       console.error("Processing failed:", err.message);
-      alert(`Processing failed: ${err.message}`);
-
-      setIsLoading(false);
+      toast.error(`Processing failed: ${err.message}`, {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#b882f7",
+        },
+      });
     } finally {
       setIsLoading(false);
     }
@@ -326,7 +391,7 @@ const VideoEditor = () => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          video_url: currentFrame.src,
+          video_id: currentFrame.id,
           volume: volume,
           gen_sub: sub,
         }),
@@ -336,51 +401,49 @@ const VideoEditor = () => {
         throw new Error(errorData.error || "Failed to process video");
       }
 
-      const blob = await response.blob();
-      const videoURL = URL.createObjectURL(blob);
+      const updated = await response.json();
+      console.log("response object recieved by auto removal was: ", updated);
+      const newUrl = updated.video.video_url;
 
-      // Update the current clip with the processed video
       const video = document.createElement("video");
       video.preload = "metadata";
-      video.src = videoURL;
+      video.src = newUrl;
 
       video.onloadedmetadata = () => {
         const durationInSeconds = video.duration;
         const fps = 30;
         const durationInFrames = Math.round(durationInSeconds * fps);
 
-        //  const newClip = {
-        //           id: location.state.video_id,
-        //           src: videoURL,
-        //           name: location.state.video_name,
-        //           duration: durationInFrames,
-        //           row: 0,
-        //           start: 0,
-        //         };
-
         setClips((prevClips) => {
-          const updatedClips = prevClips.map((clip, index) => {
-            if (index === 0) {
-              // Update the first clip with processed video
-              return {
-                ...clip,
-                src: videoURL,
-                duration: durationInFrames,
-              };
-            }
-            return clip;
-          });
+          const updatedClips = prevClips.map((clip) =>
+            clip.id === currentFrame.id
+              ? { ...clip, src: newUrl, duration: durationInFrames }
+              : clip
+          );
           updateTotalDuration(updatedClips);
-          video.remove();
           return updatedClips;
         });
-      };
 
-      alert("Denoising completed successfully!");
+        console.log("UPDATED THE CLIP: ", video);
+        console.log("PUT THE NEW URL: ", newUrl);
+        video.remove();
+        toast.success("Denoising completed.", {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#b882f7",
+          },
+        });
+      };
     } catch (err) {
       console.error("Processing failed:", err.message);
-      alert(`Processing failed: ${err.message}`);
-      setIsLoading(false);
+      toast.error(`Processing failed: ${err.message}`, {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#b882f7",
+        },
+      });
     } finally {
       setIsLoading(false);
     }
@@ -408,58 +471,124 @@ const VideoEditor = () => {
         throw new Error(errorData.error || "Failed to process video");
       }
 
-      const blob = await response.blob();
-      const videoURL = URL.createObjectURL(blob);
-      console.log("VIDEO URLC ERATED IS", videoURL);
-      // Update the current clip with the processed video
+      const updated = await response.json();
+      console.log("response object recieved by auto removal was: ", updated);
+      const newUrl = updated.video.video_url;
+
       const video = document.createElement("video");
       video.preload = "metadata";
-      video.src = videoURL;
+      video.src = newUrl;
 
       video.onloadedmetadata = () => {
         const durationInSeconds = video.duration;
         const fps = 30;
         const durationInFrames = Math.round(durationInSeconds * fps);
 
-        //  const newClip = {
-        //           id: location.state.video_id,
-        //           src: videoURL,
-        //           name: location.state.video_name,
-        //           duration: durationInFrames,
-        //           row: 0,
-        //           start: 0,
-        //         };
-
         setClips((prevClips) => {
-          const updatedClips = prevClips.map((clip, index) => {
-            if (clip.id === currentFrame.id) {
-              // Update the first clip with processed video
-              return {
-                ...clip,
-                src: videoURL,
-                duration: durationInFrames,
-              };
-            }
-            return clip;
-          });
+          const updatedClips = prevClips.map((clip) =>
+            clip.id === currentFrame.id
+              ? { ...clip, src: newUrl, duration: durationInFrames }
+              : clip
+          );
           updateTotalDuration(updatedClips);
-          video.remove();
           return updatedClips;
         });
-      };
 
-      alert("Denoising completed successfully!");
-      console.log("Rendering clips:", clips);
+        console.log("UPDATED THE CLIP: ", video);
+        console.log("PUT THE NEW URL: ", newUrl);
+        video.remove();
+        toast.success("Style Transfer completed.", {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#b882f7",
+          },
+        });
+      };
     } catch (err) {
       console.error("Processing failed:", err.message);
-      alert(`Processing failed: ${err.message}`);
-      setIsLoading(false);
+      toast.error(`Processing failed: ${err.message}`, {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#b882f7",
+        },
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Filter handling
+  const handleBgChange = async (bgNum) => {
+    const currentFrame = getCurrentlyPlayingClip();
+    try {
+      setIsLoading(true);
+      const token = localStorage.getItem("token");
+      console.log("sending bg id", bgNum);
+      const response = await fetch("http://localhost:3000/video/bgchange", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          video_id: currentFrame.id,
+          bg_num: bgNum,
+        }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to process video");
+      }
+
+      const updated = await response.json();
+      console.log("response object recieved by auto removal was: ", updated);
+      const newUrl = updated.video.video_url;
+
+      const video = document.createElement("video");
+      video.preload = "metadata";
+      video.src = newUrl;
+
+      video.onloadedmetadata = () => {
+        const durationInSeconds = video.duration;
+        const fps = 30;
+        const durationInFrames = Math.round(durationInSeconds * fps);
+
+        setClips((prevClips) => {
+          const updatedClips = prevClips.map((clip) =>
+            clip.id === currentFrame.id
+              ? { ...clip, src: newUrl, duration: durationInFrames }
+              : clip
+          );
+          updateTotalDuration(updatedClips);
+          return updatedClips;
+        });
+
+        console.log("UPDATED THE CLIP: ", video);
+        console.log("PUT THE NEW URL: ", newUrl);
+        video.remove();
+        toast.success("Background changed.", {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#b882f7",
+          },
+        });
+      };
+    } catch (err) {
+      console.error("Processing failed:", err.message);
+      toast.error(`Processing failed: ${err.message}`, {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#b882f7",
+        },
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleFilterChange = (filterId, customSettings = null) => {
     setSelectedFilter(filterId);
     if (customSettings) {
@@ -469,7 +598,6 @@ const VideoEditor = () => {
     }
   };
 
-  // Generate CSS filter string based on selected filter
   const getFilterStyle = () => {
     if (selectedFilter === "custom" && customFilterSettings) {
       const { brightness, contrast, saturation, hue, blur, opacity } =
@@ -576,7 +704,14 @@ const VideoEditor = () => {
     if (clips.length === 0) {
       const videoURL = location.state.video;
 
-      if (!videoURL) return alert("Failed to get video URL.");
+      if (!videoURL)
+        return toast.error("Failed to get video URL.", {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#b882f7",
+          },
+        });
       const video = document.createElement("video");
       console.log("Video element created:", video);
       video.preload = "metadata";
@@ -604,7 +739,6 @@ const VideoEditor = () => {
     }
   }, []);
 
-  // Main render
   return (
     <>
       <VideoNavbar />
@@ -616,6 +750,8 @@ const VideoEditor = () => {
           onAutoRemove={handleAutoRem}
           onDenoise={handleDenoise}
           onStyleTransfer={handleStyleTransfer}
+          onExport={exportVideo}
+          onBgChange={handleBgChange}
         />
         {ready && totalDuration > 1 && (
           <div className={styles.container}>
@@ -626,38 +762,25 @@ const VideoEditor = () => {
               }}
             >
               {showOriginal ? <EyeClosedIcon /> : <Eye />}
-              {showOriginal ? "HIDE" : "SHOW"}
+              {showOriginal ? "HIDE ORIGINAL" : "SHOW ORIGINAL"}
             </button>
 
             {/* Player section */}
             <div className={styles.playerSection}>
               <div className={styles.playerContainer}>
                 <div className={styles.playerWrapper}>
-                  <div className={styles.editedVid}>
-                    <Player
-                      ref={playerRef}
-                      component={Composition}
-                      durationInFrames={Math.max(1, totalDuration)}
-                      compositionWidth={1920}
-                      compositionHeight={1080}
-                      controls
-                      fps={30}
-                      className={styles.player}
-                      renderLoading={() => <div>Loading...</div>}
-                      inputProps={{}}
-                      style={{ height: "320px", width: "560px" }}
-                      onFrameChange={(frame) => {
-                        setCurrentFrame(frame);
-                        console.log("FRAME: ", frame);
-                      }}
-                    />
-                  </div>
-                  {showOriginal && (
-                    <div className={styles.originalVid}>
+                  <motion.div
+                    layout
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                  >
+                    <p className={styles.videoStatus}>Edited</p>
+                    <div className={styles.editedVid}>
                       <Player
-                        ref={uneditedRef}
-                        component={Original}
-                        durationInFrames={originalClip.duration}
+                        ref={playerRef}
+                        component={Composition}
+                        durationInFrames={Math.max(1, totalDuration)}
                         compositionWidth={1920}
                         compositionHeight={1080}
                         controls
@@ -666,8 +789,41 @@ const VideoEditor = () => {
                         renderLoading={() => <div>Loading...</div>}
                         inputProps={{}}
                         style={{ height: "320px", width: "560px" }}
+                        onFrameChange={(frame) => {
+                          setCurrentFrame(frame);
+                          console.log("FRAME: ", frame);
+                        }}
                       />
                     </div>
+                  </motion.div>
+                  {showOriginal && (
+                    <motion.div
+                      layout
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: 0.5,
+                        ease: "easeOut",
+                        delay: 0.3,
+                      }}
+                    >
+                      <p className={styles.videoStatus}>Original</p>
+                      <div className={styles.originalVid}>
+                        <Player
+                          ref={uneditedRef}
+                          component={Original}
+                          durationInFrames={originalClip.duration}
+                          compositionWidth={1920}
+                          compositionHeight={1080}
+                          controls
+                          fps={30}
+                          className={styles.player}
+                          renderLoading={() => <div>Loading...</div>}
+                          inputProps={{}}
+                          style={{ height: "320px", width: "560px" }}
+                        />
+                      </div>
+                    </motion.div>
                   )}
                 </div>
               </div>
@@ -707,6 +863,7 @@ const VideoEditor = () => {
                         <Trash2 className={styles.buttonIcon} />
                         <span className={styles.buttonText}>Remove Clip</span>
                       </button>
+
                       {/* <button
                         type="button"
                         onClick={handleAutoRem}
@@ -754,12 +911,6 @@ const VideoEditor = () => {
                             </div>
                           </div>
                         </div>
-
-                        <div className={styles.timelineRow}>
-                          <div className={styles.timelineRowInner}>
-                            <div className={styles.timelineTrack2}></div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -782,15 +933,15 @@ const VideoEditor = () => {
             left: 0,
             width: "100%",
             height: "100%",
-            backgroundColor: "rgba(13, 36, 44, 0.73)",
+            backgroundColor: "rgba(41, 41, 41, 0.73)",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             zIndex: 9999,
           }}
         >
-          <PacmanLoader
-            color={"#007da6ff"}
+          <ScaleLoader
+            color={"#b882f7"}
             loading={isLoading}
             size={25}
             aria-label="Loading Spinner"
@@ -798,6 +949,7 @@ const VideoEditor = () => {
           />
         </div>
       )}
+      <Toaster position="bottom-right" reverseOrder={false} />
     </>
   );
 };

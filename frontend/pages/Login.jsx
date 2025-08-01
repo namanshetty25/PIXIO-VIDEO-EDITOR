@@ -1,16 +1,23 @@
 import styles from "./Login.module.css";
 import login_hero from "../public/login_hero.jpg";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { PacmanLoader } from "react-spinners";
+import { ScaleLoader } from "react-spinners";
+import toast, { Toaster } from "react-hot-toast";
 
 const LogIn = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const signup = async () => {
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match.");
+      toast.error("Passwords do not match.", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#b882f7",
+        },
+      });
       return;
     }
 
@@ -32,11 +39,23 @@ const LogIn = () => {
         console.log("Signup successful!");
         setIsLogin(true); // switch to login mode
       } else {
-        alert(`Signup failed: ${data.message || data.error}`);
+        toast.error(`Signup failed: ${data.message || data.error}`, {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#b882f7",
+          },
+        });
       }
     } catch (error) {
       console.error("Signup error:", error);
-      alert("Signup failed due to network/server error.");
+      toast.error("Signup failed due to network/server error.", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#b882f7",
+        },
+      });
     }
   };
 
@@ -60,11 +79,23 @@ const LogIn = () => {
         console.log("Login successful!");
         navigate("/home");
       } else {
-        alert(`Login failed: ${data.message}`);
+        toast.error(`Login failed: ${data.message}`, {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#b882f7",
+          },
+        });
       }
     } catch (error) {
       console.error("Login error:", error);
-      alert("Login failed due to network/server error.");
+      toast.error("Login failed due to network/server error.", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#b882f7",
+        },
+      });
       setIsLoading(false);
     } finally {
       setIsLoading(false);
@@ -110,7 +141,7 @@ const LogIn = () => {
 
   return (
     <section className={styles.container}>
-      <div className={styles.companyName}>Company Name</div>
+      <div className={styles.companyName}>Gen Video</div>
       <img className={styles.img} src={login_hero} alt="LogIn Hero" />
       <div className={styles.box}>
         <div className={styles.toggleContainer}>
@@ -250,15 +281,16 @@ const LogIn = () => {
             left: 0,
             width: "100%",
             height: "100%",
-            backgroundColor: "#000d11",
+            backgroundColor: "#000",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             zIndex: 9999,
           }}
         >
-          <PacmanLoader
-            color={"#f7f7f7"}
+          <Toaster position="bottom-right" reverseOrder="false" />
+          <ScaleLoader
+            color={"#b882f7"}
             loading={isLoading}
             size={25}
             aria-label="Loading Spinner"

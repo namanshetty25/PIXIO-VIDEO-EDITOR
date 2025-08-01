@@ -1,5 +1,5 @@
 import express from "express";
-import cookieParser from "cookie-parser";
+import gifRouter from "./routers/gifRouter.js";
 import userRouter from "./routers/userRouter.js";
 import videoRouter from "./routers/videoRouter.js";
 import cors from "cors";
@@ -15,6 +15,7 @@ app.use(
 app.use(express.json({ limit: "100mb" }));
 app.use("/user", userRouter);
 app.use("/video", videoRouter);
+app.use("/gif", gifRouter);
 
 app.listen(port, () => {
   console.log(`Server connected on port ${port}...`);

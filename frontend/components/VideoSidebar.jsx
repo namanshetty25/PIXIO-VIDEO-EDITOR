@@ -2,7 +2,6 @@ import { useState } from "react";
 import styles from "./VideoSidebar.module.css";
 import {
   SlidersHorizontal,
-  Zap,
   Play,
   Paintbrush,
   Brush as BrushCleaning,
@@ -11,8 +10,9 @@ import {
   Undo2,
   MousePointerClick,
   WandSparkles,
+  SendToBack,
+  Film,
 } from "lucide-react";
-import { useNavigate, useLocation } from "react-router-dom";
 
 import ClickableBox from "./ClickableBox";
 
@@ -23,16 +23,15 @@ const VideoSidebar = ({
   onDenoise,
   onClickRem,
   onStyleTransfer,
+  onBgChange,
+  onExport,
 }) => {
   const [objectRemovalMode, setObjectRemovalMode] = useState("click");
   const [isClickActive, setIsClickActive] = useState(false);
   const [isAutoActive, setIsAutoActive] = useState(false);
   const [style, setStyle] = useState(0);
+  const [background, setBackground] = useState(0);
   const [detectedObjects, setDetectedObjects] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const filters = [
     { id: "none", name: "None" },
@@ -48,6 +47,7 @@ const VideoSidebar = ({
   ];
 
   const [superActive, setSuperActive] = useState(false);
+  const [bgActive, setBgActive] = useState(false);
   const [audioActive, setAudioActive] = useState(false);
   const [filterActive, setFilterActive] = useState(false);
   const [styleActive, setStyleActive] = useState(false);
@@ -60,7 +60,11 @@ const VideoSidebar = ({
     styleSrc[i] = `/Artworks/${i + 1}.jpg`;
   }
 
-  // Filter settings state
+  let bgSrc = [];
+  for (let i = 0; i < 10; i++) {
+    bgSrc[i] = `/Backgrounds/${i + 1}.png`;
+  }
+
   const [filterSettings, setFilterSettings] = useState({
     brightness: 100,
     contrast: 100,
@@ -76,6 +80,7 @@ const VideoSidebar = ({
     setObjectRemActive(false);
     setStyleActive(false);
     setSuperActive(!superActive);
+    setBgActive(false);
   };
 
   const handleAudioClick = () => {
@@ -84,6 +89,7 @@ const VideoSidebar = ({
     setObjectRemActive(false);
     setStyleActive(false);
     setAudioActive(!audioActive);
+    setBgActive(false);
   };
 
   const handleFilterClick = () => {
@@ -92,6 +98,7 @@ const VideoSidebar = ({
     setObjectRemActive(false);
     setStyleActive(false);
     setFilterActive(!filterActive);
+    setBgActive(false);
   };
 
   const handleObjRemClick = () => {
@@ -100,6 +107,7 @@ const VideoSidebar = ({
     setFilterActive(false);
     setStyleActive(false);
     setObjectRemActive(!objectRemActive);
+    setBgActive(false);
   };
 
   const handleStyleClick = () => {
@@ -108,6 +116,16 @@ const VideoSidebar = ({
     setFilterActive(false);
     setObjectRemActive(false);
     setStyleActive(!styleActive);
+    setBgActive(false);
+  };
+
+  const handleBgClick = () => {
+    setAudioActive(false);
+    setSuperActive(false);
+    setFilterActive(false);
+    setObjectRemActive(false);
+    setBgActive(!bgActive);
+    setStyleActive(false);
   };
 
   const handleFilterSelect = (filterId) => {
@@ -120,7 +138,6 @@ const VideoSidebar = ({
     const newSettings = { ...filterSettings, [setting]: value };
     setFilterSettings(newSettings);
 
-    // Apply custom filter settings to video
     if (onFilterChange) {
       onFilterChange("custom", newSettings);
     }
@@ -140,7 +157,6 @@ const VideoSidebar = ({
     const newClickState = !isClickActive;
     setIsClickActive(newClickState);
 
-    // Disable lasso mode when auto is active
     if (newClickState) {
       setIsAutoActive(false);
     }
@@ -153,23 +169,12 @@ const VideoSidebar = ({
   const handleObjectClick = (coordinates) => {
     console.log("Object detected at coordinates:", coordinates);
 
-    // Add the clicked coordinates to detected objects
     setDetectedObjects(coordinates);
 
-    // Here you would typically:
-    // 1. Send coordinates to AI service for object detection
-    // 2. Get back object boundaries/mask
-    // 3. Process for removal
-
-    // For now, we'll just log and store the coordinates
     console.log("Auto-detect clicked at:", coordinates);
     console.log("All detected objects:", coordinates);
-
-    // Optionally auto-exit after click
-    // setIsAutoActive(false);
   };
 
-  // Get the video element for overlay positioning
   const getVideoElement = () => {
     const videoWrapper = document.querySelector(".videoWrapper");
     if (videoWrapper) {
@@ -181,28 +186,82 @@ const VideoSidebar = ({
   return (
     <>
       <section className={styles.container}>
+        <button className={styles.exportBtn} onClick={onExport}>
+          <Film />
+          EXPORT VIDEO
+        </button>
         <ul>
           <button
             onClick={handleSuperClick}
             className={`${styles.menu} ${superActive ? styles.active : ""}`}
           >
-            <ZoomIn
-              size={20}
-              fill={superActive ? "rgb(0, 111, 148)" : "#132029ff"}
-            />
-            SUPER RESOLUTION
+            <ZoomIn size={20} fill={superActive ? "#212121" : "#132029ff"} />
+            UPSCALING
           </button>
           {superActive && (
-            <div className={styles.toolActions}>
+            <>
+              <p className={styles.modeDescription}>
+                Enhances video resolution by 4× using AI-based upscaling.
+                Preserves fine details and sharpens frames without introducing
+                artifacts.
+              </p>
               <button className={styles.previewBtn}>
                 <Play size={14} />
-                Preview
-              </button>
-              <button className={styles.processBtn}>
-                <Zap size={14} />
                 Process
               </button>
-            </div>
+            </>
+          )}
+
+          <button
+            onClick={handleBgClick}
+            className={`${styles.menu} ${bgActive ? styles.active : ""}`}
+          >
+            <SendToBack
+              size={20}
+              fill={superActive ? "#212121" : "#132029ff"}
+            />
+            BG CHANGE
+          </button>
+          {bgActive && (
+            <>
+              <p className={styles.modeDescription}>
+                Replaces the original video background with a chosen preset from
+                available options. Tailored for videos with clear human
+                subjects.
+              </p>
+              <button
+                className={styles.previewBtn}
+                onClick={() => {
+                  onBgChange(background);
+                }}
+              >
+                <Play size={14} />
+                Process
+              </button>
+
+              <div className={styles.styleGrid}>
+                <button
+                  onClick={() => setBackground(0)}
+                  className={`${styles.noStyle} ${
+                    style === 0 ? styles.noStyleactive : ""
+                  }`}
+                >
+                  <Undo2 size={16} color="#132029ff" />
+                  NONE
+                </button>
+                {bgSrc.map((src, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setBackground(i + 1)}
+                    className={`${styles.styleImg} ${
+                      background === i + 1 ? styles.styleImgactive : ""
+                    }`}
+                  >
+                    <img src={src} alt={`Art Style ${i + 1}`} />
+                  </button>
+                ))}
+              </div>
+            </>
           )}
 
           <button
@@ -211,7 +270,7 @@ const VideoSidebar = ({
           >
             <AudioLines
               size={20}
-              fill={audioActive ? "rgb(0, 111, 148)" : "#132029ff"}
+              fill={audioActive ? "#212121" : "#132029ff"}
             />
             DENOISE
           </button>
@@ -219,9 +278,9 @@ const VideoSidebar = ({
             <>
               <form className={styles.audioForm}>
                 <label className={styles.audioTools}>
-                  <span className={styles.settingValue}>
-                    Noise {noiseLevel}
-                  </span>
+                  <div className={styles.settingValue}>
+                    Noise <span>{noiseLevel}</span>
+                  </div>
                   <input
                     type="range"
                     min="0"
@@ -245,26 +304,17 @@ const VideoSidebar = ({
                   />
                 </label>
                 <button
-                  className={styles.lassoActivateBtn}
+                  className={styles.previewBtn}
                   type="submit"
                   onClick={(e) => {
                     e.preventDefault();
                     onDenoise(noiseLevel, generateSubtitles);
                   }}
                 >
-                  SUBMIT
-                </button>
-              </form>
-              <div className={styles.toolActions}>
-                <button className={styles.previewBtn}>
                   <Play size={14} />
-                  Preview
-                </button>
-                <button className={styles.processBtn}>
-                  <Zap size={14} />
                   Process
                 </button>
-              </div>
+              </form>
             </>
           )}
 
@@ -274,7 +324,7 @@ const VideoSidebar = ({
           >
             <BrushCleaning
               size={20}
-              fill={objectRemActive ? "rgb(0, 111, 148)" : "#132029ff"}
+              fill={objectRemActive ? "#212121" : "#132029ff"}
             />
             OBJECT REMOVAL
           </button>
@@ -343,35 +393,27 @@ const VideoSidebar = ({
                     onClick={handleClickModeToggle}
                   >
                     <MousePointerClick size={14} />
-                    {isClickActive
-                      ? "Exit Click Mode"
-                      : "Activate Click and Erase"}
+                    {isClickActive ? "Exit Click Mode" : "Activate Click Mode"}
                   </button>
                 </div>
               )}
 
-              <div className={styles.toolActions}>
-                <button
-                  className={styles.previewBtn}
-                  onClick={() => {
-                    if (objectRemovalMode === "auto") {
-                      handleAutoModeToggle();
-                    } else {
-                      setIsClickActive(false);
+              <button
+                className={styles.previewBtn}
+                onClick={() => {
+                  if (objectRemovalMode === "auto") {
+                    handleAutoModeToggle();
+                  } else {
+                    setIsClickActive(false);
 
-                      onClickRem(detectedObjects.x, detectedObjects.y);
-                      setIsClickActive(false);
-                    }
-                  }}
-                >
-                  <Play size={14} />
-                  Preview
-                </button>
-                <button className={styles.processBtn}>
-                  <Zap size={14} />
-                  Process
-                </button>
-              </div>
+                    onClickRem(detectedObjects.x, detectedObjects.y);
+                    setIsClickActive(false);
+                  }
+                }}
+              >
+                <Play size={14} />
+                Process
+              </button>
             </div>
           )}
 
@@ -554,21 +596,21 @@ const VideoSidebar = ({
 
           {styleActive && (
             <>
-              <div className={styles.toolActions}>
-                <button
-                  className={styles.previewBtn}
-                  onClick={() => {
-                    onStyleTransfer(style);
-                  }}
-                >
-                  <Play size={14} />
-                  Preview
-                </button>
-                <button className={styles.processBtn}>
-                  <Zap size={14} />
-                  Process
-                </button>
-              </div>
+              <p className={styles.modeDescription}>
+                Applies the visual aesthetic of a selected reference artwork or
+                image style to the entire video. Alters color, texture, and
+                stroke patterns frame-by-frame.
+              </p>
+              <button
+                className={styles.previewBtn}
+                onClick={() => {
+                  onStyleTransfer(style);
+                }}
+              >
+                <Play size={14} />
+                Process
+              </button>
+
               <div className={styles.styleGrid}>
                 <button
                   onClick={() => setStyle(0)}

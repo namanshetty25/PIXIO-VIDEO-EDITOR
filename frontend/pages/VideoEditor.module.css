@@ -2,25 +2,14 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
-  --buff: #d4aa8bff;
-  --blue-black: #000d11;
-  --blue-black-2: #132029ff;
-  --fuchsia-rose: #cf4176ff;
-  --orchid-pink: #e3b5c6ff;
-  --cerulean: #007da6ff;
-  --cream: #f7f7f7;
-  --cream-2: #f0f0f0;
-  --picton-blue: #00a8e7ff;
-  --white: #ffffffff;
-  --prussian-blue: #003459ff;
-  --lavender: #667eea;
   font-family: Inter, sans-serif;
 }
 
 .box {
   display: flex;
   flex-direction: row;
+  overflow: hidden;
+  background-color: black;
 }
 
 /* Container and Layout */
@@ -29,50 +18,59 @@
   overflow-y: hidden;
   flex-direction: column;
   color: var(--cream);
-  width: 83%;
+  width: 89%;
   height: min-content;
   margin-bottom: 0;
-  background-color: var(--cream);
+  background-color: #131313;
+  border-top-left-radius: 20px;
 }
 
 .originalBtn {
-  width: 150px;
+  width: 180px;
+  height: 45px;
   display: flex;
   flex-direction: row;
   gap: 5px;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--blue-black);
-  margin-left: 10px;
-  padding: 2px;
+  border: 2px solid #a964f7cb;
+  margin: 10px;
+  padding: 5px;
   font-weight: 700;
-  color: var(--cream);
-  border-radius: 5px;
-  margin-top: 10px;
-  background-color: var(--blue-black-2);
+  color: #c191f7;
+  border-radius: 10px;
+  background-color: #212121;
+}
+
+.videoStatus {
+  color: #fff;
+  padding-left: 46%;
+  margin: 10px;
+  font-weight: 700;
+  color: #c191f7;
+  border-radius: 10px;
 }
 
 .playerSection {
   display: flex;
   overflow: hidden;
-  background-color: var(--cream);
+  background-color: #131313;
 }
 
 .playerContainer {
-  border: 1px solid var(--cream-2);
   flex-grow: 1;
   padding: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background-color: var(--cream);
+  background-color: #131313;
 }
 
 .playerWrapper {
-  width: 100%;
   height: 100%;
   display: flex;
+  padding: 10px;
   gap: 6px;
   overflow-x: visible;
   padding: 0px 10px;
@@ -85,7 +83,7 @@
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
   border-radius: 0.5rem;
   overflow: hidden;
-  background-color: var(--cream);
+  background-color: #131313;
   width: 560px;
   height: 320px;
 }
@@ -95,16 +93,24 @@
   height: 100%;
 }
 
+.originalVid {
+  border: 2px solid #a353ff;
+}
+
+.editedVid {
+  border: 2px solid #a353ff;
+}
+
 /* Timeline */
 .timelineSection {
-  height: 14.3rem;
+  height: 12.72rem;
   bottom: 0;
-  background-color: var(--blue-black-2);
+  background-color: black;
   width: 100%;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  border: 1px solid #374151;
+  border: 1px solid #292929;
   border-bottom-left-radius: 0.375rem;
   border-bottom-right-radius: 0.375rem;
   transition: opacity 0.4s ease, transform 0.4s ease;
@@ -123,7 +129,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #374151;
+  border-bottom: 1px solid #292929;
   padding: 1rem;
 }
 
@@ -146,14 +152,14 @@
 .addClipBox input::file-selector-button {
   border: none;
   padding: 4px;
-  background-color: var(--lavender);
+  background-color: #b882f7;
   border-radius: 5px;
-  color: var(--charcoal);
+  color: #212121;
   font-weight: 600;
 }
 
 .addButton {
-  background-color: #374151;
+  background-color: #a767f18e;
   color: white;
   padding: 0.5rem;
   border-radius: 0.375rem;
@@ -166,7 +172,7 @@
 }
 
 .addButton:hover {
-  background-color: #4b5563;
+  background-color: #8b3be6a6;
 }
 
 .buttonIcon {
@@ -180,9 +186,8 @@
 }
 
 .timelineContent {
-  background-color: #1f2937;
-  border-radius: 0.5rem;
-  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  background-color: #212121;
+
   position: relative;
   cursor: not-allowed;
 }
@@ -231,7 +236,7 @@
 }
 .timelineTrack2 {
   flex-grow: 1;
-  background: var(--cream-2);
+  background: #212121;
   border-radius: 0.125rem;
 }
 
@@ -243,7 +248,7 @@
 }
 
 .clipItem {
-  background-color: var(--lavender);
+  background-color: #b882f7;
 }
 
 .textItem {

@@ -1,22 +1,11 @@
 import { useState, useRef } from "react";
 import styles from "./Dashboard.module.css";
 import Sidebar from "../components/Sidebar";
-import {
-  Plus,
-  Play,
-  MoreVertical,
-  Calendar,
-  Clock,
-  Eye,
-  Upload,
-  FileVideo,
-  Sparkles,
-  Wand,
-  Wand2,
-} from "lucide-react";
+import { Upload, Sparkles, Wand2 } from "lucide-react";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
-import { PacmanLoader } from "react-spinners";
+import { ScaleLoader } from "react-spinners";
+import toast, { Toaster } from "react-hot-toast";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -28,40 +17,6 @@ const Dashboard = () => {
     margin: "0 auto",
     borderColor: "red",
   };
-  // Mock video data
-  const videos = [
-    {
-      id: 1,
-      title: "Product Launch Campaign",
-      thumbnail:
-        "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400",
-      duration: "2:34",
-      views: "12.5K",
-      createdAt: "2 days ago",
-      status: "Published",
-    },
-    {
-      id: 2,
-      title: "Brand Story Documentary",
-      thumbnail:
-        "https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=400",
-      duration: "5:42",
-      views: "8.2K",
-      createdAt: "1 week ago",
-      status: "Published",
-    },
-    {
-      id: 3,
-      title: "Tutorial Series - Episode 1",
-      thumbnail:
-        "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=400",
-      duration: "8:15",
-      views: "15.7K",
-      createdAt: "2 weeks ago",
-      status: "Published",
-    },
-  ];
-
   const handleDragOver = (e) => {
     e.preventDefault();
     setIsDragOver(true);
@@ -85,18 +40,9 @@ const Dashboard = () => {
     handleFiles(files);
   };
 
-  // const handleFiles = (files) => {
-  //   const videoFiles = files.filter((file) => file.type.startsWith("video/"));
-  //   if (videoFiles.length > 0) {
-  //     console.log("Processing video files:", videoFiles);
-  //     navigate("/video", { state: { video: files } });
-  //     // Here you would typically upload and process the files
-  //   }
-  // };
-
   const handleFiles = async (files) => {
     setIsLoading(true);
-    console.log("RECIEED", files);
+    console.log("RECIEVED", files);
     const videoFiles = files.filter((file) => file.type.startsWith("video/"));
     if (videoFiles.length === 0) return;
 
@@ -104,12 +50,11 @@ const Dashboard = () => {
 
     const token = localStorage.getItem("token");
     console.log("Processing tokens:", token);
-    const project_name = `Project ${Date.now()}`; // Or let user choose
+    const project_name = `Project ${Date.now()}`;
 
     try {
       console.log("IN NEW PROJECT");
       let uploadData;
-      // Step 1: Create new project
       const projectRes = await fetch(
         "http://localhost:3000/video/new-project",
         {
@@ -131,7 +76,6 @@ const Dashboard = () => {
       console.log("Created project:", project_id);
       localStorage.setItem("project_id", project_id);
 
-      // Step 2: Upload videos one by one
       for (const file of videoFiles) {
         const formData = new FormData();
         formData.append("file", file);
@@ -154,8 +98,6 @@ const Dashboard = () => {
         console.log("Uploaded:", uploadData.video);
       }
 
-      // Step 3: Navigate after all uploads succeed
-
       navigate("/video", {
         state: {
           project_id,
@@ -167,7 +109,13 @@ const Dashboard = () => {
     } catch (err) {
       setIsLoading(false);
       console.error("Error handling files:", err);
-      alert(`Upload failed: ${err.message}`);
+      toast.error(`Upload failed: ${err.message}`, {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#b882f7",
+        },
+      });
     } finally {
       setIsLoading(false);
     }
@@ -226,57 +174,19 @@ const Dashboard = () => {
               </div>
 
               <div className={styles.quickActions}>
-                <button className={styles.actionButton}>
+                <button
+                  className={styles.actionButton}
+                  onClick={() => {
+                    navigate("/generate");
+                  }}
+                >
                   <Sparkles size={20} />
-                  <span>AI Generator</span>
+                  <span>GIF Generator</span>
                 </button>
                 <button className={styles.actionButton}>
                   <Wand2 size={20} />
                   <span>Start Editing</span>
                 </button>
-              </div>
-            </section>
-
-            {/* Recent Videos Section */}
-            <section className={styles.videosSection}>
-              <div className={styles.sectionHeader}>
-                <h2 className={styles.sectionTitle}>Your Recent Videos</h2>
-                <button className={styles.viewAllButton}>View All</button>
-              </div>
-
-              <div className={styles.videoGrid}>
-                {videos.map((video) => (
-                  <div key={video.id} className={styles.videoCard}>
-                    <div className={styles.videoThumbnail}>
-                      <img src={video.thumbnail} alt={video.title} />
-                      <div className={styles.playOverlay}>
-                        <Play size={24} />
-                      </div>
-                      <div className={styles.videoDuration}>
-                        {video.duration}
-                      </div>
-                      <div className={styles.videoStatus}>
-                        <span
-                          className={`${styles.statusBadge} ${
-                            styles[video.status.toLowerCase()]
-                          }`}
-                        >
-                          {video.status}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className={styles.videoInfo}>
-                      <h3 className={styles.videoTitle}>{video.title}</h3>
-                      <div className={styles.videoMeta}>
-                        <div className={styles.metaItem}>
-                          <Calendar size={14} />
-                          <span>{video.createdAt}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
               </div>
             </section>
           </div>
@@ -297,8 +207,9 @@ const Dashboard = () => {
             zIndex: 9999,
           }}
         >
-          <PacmanLoader
-            color={"#f7f7f7"}
+          <Toaster position="bottom-right" reverseOrder={false} />
+          <ScaleLoader
+            color={"#b882f7"}
             loading={isLoading}
             size={25}
             aria-label="Loading Spinner"
