@@ -1,6 +1,6 @@
 # IITISoC-ML-05
 
-This repository contains solutions and implementations for the IITISoC Machine Learning Track (Project 05). It is organized into several feature modules related to video and audio processing, leveraging popular machine learning libraries and frameworks.
+This repository contains solutions and implementations for the IITISoC Machine Learning Track (Project 05). It is organized into several feature modules related to video and audio processing, leveraging state-of-the-art ML models.
 
 ## Features
 
@@ -34,6 +34,14 @@ This repository contains solutions and implementations for the IITISoC Machine L
   - Noise removal and voice enhancement for audio tracks.
   - Ready-to-use Colab notebooks with setup instructions.
 
+- **Object Inpainting**
+  - Remove or inpaint objects from images and videos using deep learning models.
+  - Find demos and notebooks in `features/object_inpainting/`.
+
+- **GIF Generator**
+  - Generate GIFs from processed video or image sequences.
+  - Ready-to-use utilities and notebooks available in `features/gif_generator/`.
+
 - **Web Frontend**
   - React + Vite frontend for demoing ML features (`web_dev/frontend/`).
   - ESLint and recommended plugins are pre-configured.
@@ -58,12 +66,10 @@ Most features are implemented as Jupyter notebooks. To run them locally or in Co
 - **React + Vite** (for frontend)
 - **Ngrok** (for exposing local servers)
 
-
-
 ## Contributing
 
 Feel free to open issues or submit pull requests for improvements or new features.
 
-
 ---
+
 For specific instructions and demos, check the respective feature directories and notebooks.
