@@ -82,6 +82,7 @@ CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 Backend
 ```bash
 cd ./web_dev/backend
+npx prisma generate
 node server.js
 ```
 Frontend
