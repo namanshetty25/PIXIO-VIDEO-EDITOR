@@ -1,0 +1,372 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+}
+
+::-webkit-scrollbar {
+  background: black;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: black;
+  border: 3px solid black;
+  border-radius: 50px;
+}
+
+.container {
+  height: 100vh;
+  width: 17%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  color: #c39eee;
+  background: black;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 1rem;
+  padding: 20px 15px;
+  padding-top: 4rem;
+  overflow-y: scroll;
+  top: 0;
+  bottom: 0;
+}
+
+button {
+  cursor: pointer;
+}
+
+.exportBtn {
+  padding: 10px;
+  display: flex;
+  gap: 4px;
+  margin: 5px 5px 15px 5px;
+  color: #1d1c1c;
+  font-weight: 600;
+  letter-spacing: 1px;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  background-color: #b882f7;
+  border-radius: 10px;
+  border: 2px solid #9853e7;
+}
+
+ul .menu {
+  background-color: transparent;
+  color: #c39eee;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-family: "Inter", sans-serif;
+  border: none;
+  width: 100%;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 0.75rem;
+  transition: 0.3s ease;
+  border: solid 2px black;
+}
+
+.menu:hover {
+  background-color: #b581f19a;
+  color: #c39eee;
+  cursor: pointer;
+}
+.menu.active {
+  background-color: #202020;
+  color: #c39eee;
+  border: solid 2px #b882f7;
+}
+
+.modeButtons {
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: row;
+}
+
+.modeButtons button {
+  border: none;
+  background-color: #b882f7;
+  margin: 2px;
+  padding: 4px;
+  width: 48%;
+  gap: 4px;
+  border-radius: 5px;
+  transition: 0.3s ease;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.modeButtons button:hover {
+  box-shadow: 2px 2px #a964f7cb;
+}
+
+.modeDescription {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: none;
+  background-color: #212121;
+  color: #b88fe7fb;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.audioForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.audioTools {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.settingsCheck {
+  transform: scale(1.5);
+}
+.settingsCheck:checked {
+  accent-color: #a964f7cb;
+}
+
+.toolActions {
+  display: flex;
+  flex-direction: row;
+}
+
+.previewBtn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  margin: 3px;
+  margin-top: 5px;
+  color: black;
+  height: 30px;
+  width: 97%;
+  padding: 2px;
+  margin-right: 2px;
+  border: none;
+  border-radius: 5px;
+  background-color: #b882f7;
+  transition: 0.3s ease;
+}
+
+.previewBtn:hover,
+.modeActive {
+  box-shadow: 2px 2px #a964f7cb;
+}
+
+.lassoActivateBtn {
+  margin: 3px;
+  margin-top: 5px;
+  height: 30px;
+  width: 96%;
+  padding: 2px;
+  margin-right: 2px;
+  border: none;
+  border-radius: 5px;
+  color: #212121;
+  background-color: #ac67fa98;
+  transition: 0.3s ease;
+}
+
+.lassoActivateBtn:hover {
+  background-color: #a964f7cb;
+}
+
+.detectedObjects {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.objectsList {
+  font-size: 0.875rem;
+  background-color: #a665f19a;
+  border-radius: 5px;
+  padding: 2px 5px;
+  margin: 5px;
+  align-self: center;
+  color: #c5a8e7cb;
+}
+
+.bgOuter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.bgAddBox {
+  display: flex;
+  background-color: #212121;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 5px;
+  padding: 5px;
+  width: 96%;
+}
+
+.bgAddBox button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 5px;
+  background-color: #a665f19a;
+  color: #c39eee;
+}
+
+.bgAddBox input::file-selector-button {
+  border: none;
+  padding: 4px;
+  background-color: #a665f19a;
+  border-radius: 5px;
+  color: #b882f7;
+  font-weight: 600;
+}
+
+.clearBtn {
+  border: 0px;
+  border-radius: 5px;
+  background-color: #a665f19a;
+  color: #c39eee;
+  padding: 5px;
+  transition: 0.3s ease;
+}
+
+.clearBtn:hover {
+  background-color: #212121;
+}
+
+.settingLabel {
+  font-size: 0.875rem;
+  font-weight: 400;
+  text-transform: none;
+  margin: 2px;
+  margin-bottom: 4px;
+}
+
+.filterGrid {
+  margin: 10px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.filterBtn {
+  border: none;
+  padding: 3px;
+  background-color: #212121;
+  border-radius: 4px;
+  transition: 0.3s ease;
+  color: #b882f7;
+}
+
+.filterBtn:hover,
+.filterBtn.active {
+  background-color: #b882f7;
+  color: var(--cream-2);
+}
+
+.settingValue {
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-transform: none;
+  margin: 2px;
+  width: 70px;
+}
+
+.settingValue span {
+  color: #525252;
+}
+
+.settingSlider {
+  appearance: none;
+  background: #c797fd;
+  outline: none;
+  height: 12px;
+  margin-right: 3px;
+  border-radius: 50px;
+}
+
+.settingSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50px;
+
+  background-color: #4f2e75;
+}
+
+.styleGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+}
+
+.noStyle {
+  display: flex;
+  gap: 6px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-left: 2px;
+  border: 2px solid #212121;
+  background-color: #212121;
+  padding: 6px;
+  border-radius: 5px;
+  transition: 0.1s linear;
+}
+
+.noStyle:hover,
+.noStyleactive {
+  border: 4px solid #a964f7cb;
+  background-color: #a964f7cb;
+}
+
+.styleImg {
+  border: 2px solid black;
+  border-radius: 5px;
+  height: 130px;
+  transition: 0.3s ease;
+  background-color: #302f31;
+}
+
+.styleImg img {
+  width: 94%;
+  height: 120px;
+  object-fit: cover;
+  border: none;
+}
+
+.styleImg:hover {
+  border: 2px solid #212121;
+}
+
+.styleImgactive {
+  box-shadow: 3px 3px #b882f7;
+}
+
+@media (max-width: 895px) {
+  .container {
+    display: none;
+  }
+}

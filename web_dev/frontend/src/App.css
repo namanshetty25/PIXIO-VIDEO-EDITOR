@@ -1,0 +1,22 @@
+:root {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Inter, sans-serif;
+  --buff: #d4aa8bff;
+  --rich-black: #00171fff;
+  --rich-black-2: #132029ff;
+  --charcoal: #003459ff;
+  --fuchsia-rose: #cf4176ff;
+  --orchid-pink: #e3b5c6ff;
+  --moss-green: #007da6ff;
+  --cream: #f7f7f7;
+  --cream-2: #f0f0f0;
+  --moss-green-2: #00a8e7ff;
+
+  --picton-blue: #00a8e7ff;
+  --cerulean: #007da6ff;
+  --rich-black: #00171fff;
+  --white: #ffffffff;
+  --prussian-blue: #003459ff;
+}
