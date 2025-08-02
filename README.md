@@ -52,8 +52,8 @@ Follow these steps to set up the project locally.
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/your-repo.git
-cd your-repo
+git clone https://github.com/rishabh-2005/IITISoC-ML-05
+cd IITISoc-ML-05
 ```
 ### 2. Install Dependencies
 Backend
