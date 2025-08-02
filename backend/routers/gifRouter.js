@@ -32,7 +32,7 @@ gifRouter.post("/generate", authMiddleware, async (req, res) => {
     try {
       console.log("Sending to ML with GIF prompt:", prompt);
       const mlRes = await fetch(
-        "https://db67c9bca0cc.ngrok-free.app/generate",
+        "https://261b9b87cd95.ngrok-free.app/generate",
         {
           method: "POST",
           body: formData,

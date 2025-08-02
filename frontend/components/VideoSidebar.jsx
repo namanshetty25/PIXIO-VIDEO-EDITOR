@@ -25,6 +25,7 @@ const VideoSidebar = ({
   onStyleTransfer,
   onBgChange,
   onExport,
+  onSuperRes,
 }) => {
   const [objectRemovalMode, setObjectRemovalMode] = useState("click");
   const [isClickActive, setIsClickActive] = useState(false);
@@ -205,7 +206,12 @@ const VideoSidebar = ({
                 Preserves fine details and sharpens frames without introducing
                 artifacts.
               </p>
-              <button className={styles.previewBtn}>
+              <button
+                className={styles.previewBtn}
+                onClick={() => {
+                  onSuperRes();
+                }}
+              >
                 <Play size={14} />
                 Process
               </button>

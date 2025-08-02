@@ -449,6 +449,75 @@ const VideoEditor = () => {
     }
   };
 
+  const handleSuperres = async () => {
+    const currentFrame = getCurrentlyPlayingClip();
+    try {
+      setIsLoading(true);
+      const token = localStorage.getItem("token");
+
+      const response = await fetch("http://localhost:3000/video/superres", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          video_id: currentFrame.id,
+        }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to process video");
+      }
+
+      const updated = await response.json();
+      console.log("response object recieved by super res was: ", updated);
+      const newUrl = updated.video.video_url;
+
+      const video = document.createElement("video");
+      video.preload = "metadata";
+      video.src = newUrl;
+
+      video.onloadedmetadata = () => {
+        const durationInSeconds = video.duration;
+        const fps = 30;
+        const durationInFrames = Math.round(durationInSeconds * fps);
+
+        setClips((prevClips) => {
+          const updatedClips = prevClips.map((clip) =>
+            clip.id === currentFrame.id
+              ? { ...clip, src: newUrl, duration: durationInFrames }
+              : clip
+          );
+          updateTotalDuration(updatedClips);
+          return updatedClips;
+        });
+
+        console.log("UPDATED THE CLIP: ", video);
+        console.log("PUT THE NEW URL: ", newUrl);
+        video.remove();
+        toast.success("Super Resolution completed.", {
+          style: {
+            borderRadius: "10px",
+            background: "#333",
+            color: "#b882f7",
+          },
+        });
+      };
+    } catch (err) {
+      console.error("Processing failed:", err.message);
+      toast.error(`Processing failed: ${err.message}`, {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#b882f7",
+        },
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleStyleTransfer = async (styleId) => {
     const currentFrame = getCurrentlyPlayingClip();
     try {
@@ -752,6 +821,7 @@ const VideoEditor = () => {
           onStyleTransfer={handleStyleTransfer}
           onExport={exportVideo}
           onBgChange={handleBgChange}
+          onSuperRes={handleSuperres}
         />
         {ready && totalDuration > 1 && (
           <div className={styles.container}>

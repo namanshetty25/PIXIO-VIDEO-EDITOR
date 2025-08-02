@@ -236,8 +236,9 @@ videoRouter.post("/click-removal", authMiddleware, async (req, res) => {
 
     console.log("SENT TO ML MODEL:", video.video_url);
 
-    const mlRes = await fetch("https://16550d4c6910.ngrok-free.app/remove", {
+    const mlRes = await fetch("https://1131068c5808.ngrok-free.app/remove", {
       method: "POST",
+
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
@@ -309,7 +310,7 @@ videoRouter.post("/denoise", authMiddleware, async (req, res) => {
     formData.append("volume", volume || "50");
     formData.append("gen_sub", gen_sub ? "true" : "false");
 
-    const mlServerURL = "https://cbfb51d3d8c2.ngrok-free.app/denoise";
+    const mlServerURL = "https://eec0ecfd2a0e.ngrok-free.app/denoise";
     const mlRes = await fetch(mlServerURL, {
       method: "POST",
       headers: {
@@ -385,7 +386,7 @@ videoRouter.post("/stylize", authMiddleware, async (req, res) => {
     formData.append("video_url", video.video_url);
     formData.append("style_num", parseInt(style_id).toString());
     console.log("form data: ", formData);
-    const mlRes = await fetch("https://0feb7d7a654d.ngrok-free.app/stylize/", {
+    const mlRes = await fetch("https://3e3807be25fa.ngrok-free.app/stylize/", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -440,10 +441,10 @@ videoRouter.post("/stylize", authMiddleware, async (req, res) => {
 });
 
 videoRouter.post("/superres", authMiddleware, async (req, res) => {
-  const { video_id, style_id } = req.body;
+  const { video_id } = req.body;
 
-  console.log(video_id, style_id);
-  if (!video_id || !style_id) {
+  console.log(video_id);
+  if (!video_id) {
     return res.status(400).json({ error: "Missing video_id or style_id" });
   }
 
@@ -459,9 +460,9 @@ videoRouter.post("/superres", authMiddleware, async (req, res) => {
     console.log("video found");
     const formData = new URLSearchParams();
     formData.append("video_url", video.video_url);
-    formData.append("style_num", parseInt(style_id).toString());
+
     console.log("form data: ", formData);
-    const mlRes = await fetch("https://0feb7d7a654d.ngrok-free.app/superres/", {
+    const mlRes = await fetch("https://9b7b93417ea7.ngrok-free.app/run/", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -531,7 +532,7 @@ videoRouter.post("/bgchange", authMiddleware, async (req, res) => {
       return res.status(404).json({ error: "Video not found." });
     }
 
-    const endpoint = `https://62e8ca96e42f.ngrok-free.app/bgchange?video_url=${
+    const endpoint = `https://2f9c40641780.ngrok-free.app/bgchange?video_url=${
       video.video_url
     }&bg_number=${bg_num.toString()}`;
 
