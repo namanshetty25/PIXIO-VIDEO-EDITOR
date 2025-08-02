@@ -48,23 +48,63 @@ This repository contains solutions and implementations for the IITISoC Machine L
 
 ## Installation
 
-Most features are implemented as Jupyter notebooks. To run them locally or in Colab:
+Follow these steps to set up the project locally.
 
-1. Clone the repository:
+### 1. Clone the Repository
+```bash
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
+```
+### 2. Install Dependencies
+Backend
+```bash
+cd ./web_dev/backend
+npm install
+```
+Frontend
+```bash
+cd ./web_dev/frontend
+npm install
+```
+### 3. Set Up Environment Variables
+Create a .env file in the backend folder:
+```
+# Backend .env
+JWT_SECRET_KEY=your_jwt_secret_key
+DATABASE_URL=your_database_connection_string
+CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+```
+### 4. Run the development servers
+Backend
+```bash
+cd ./web_dev/backend
+node server.js
+```
+Frontend
+```bash
+cd ./web_dev/frontend
+npm run dev
+```
+### 5. Clone the repository:
     ```bash
     git clone https://github.com/rishabh-2005/IITISoC-ML-05.git
     cd IITISoC-ML-05
     ```
-2. Open the required notebook in Jupyter or Colab.
-3. Follow the setup cells in each notebook to install dependencies and download pre-trained models.
-
+### 6. Open the required notebook in Jupyter or Colab.
+### 7. Follow the setup cells in each notebook to install dependencies and download pre-trained models.
 ## Technologies Used
 
 - **Jupyter Notebook**
 - **Python** (with libraries: torch, torchvision, tqdm, pims, ffmpeg-python, opencv-python, av, fastapi, uvicorn, nest-asyncio, python-multipart)
-- **Machine Learning Models:** RobustVideoMatting, Real-ESRGAN, ProPainter,VoiceFixer, OpenAi Whisper, ModelscopeT2V
-- **React + Vite** (for frontend)
-- **Ngrok** (for exposing local servers)
+- * **Machine Learning Models:** RobustVideoMatting, Real-ESRGAN, ProPainter
+- * **React + Vite** (for frontend)
+- * **Node + Express.js** (for backend)
+- * **Prisma ORM + PostGRESQL (Neon DB)** (for database storage)
+- * **Cloudinary** (for cloud storage)
+- * **FFMPEG** (for exporting)
+- * **Ngrok** (for exposing local servers)
 
 ## Contributing
 
