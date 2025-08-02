@@ -87,9 +87,7 @@ Frontend
 cd ./web_dev/frontend
 npm run dev
 ```
-### 5. Open the required notebook in Jupyter or Colab.
-### 6. Follow the setup cells in each notebook to install dependencies and download pre-trained models.
-### 7. Access the application
+### 5. Access the application
 ```bash
 Backend API: http://localhost:3000
 Frontend App: http://localhost:5173
