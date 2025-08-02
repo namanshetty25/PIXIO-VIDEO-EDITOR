@@ -62,7 +62,7 @@ Most features are implemented as Jupyter notebooks. To run them locally or in Co
 
 - **Jupyter Notebook**
 - **Python** (with libraries: torch, torchvision, tqdm, pims, ffmpeg-python, opencv-python, av, fastapi, uvicorn, nest-asyncio, python-multipart)
-- **Machine Learning Models:** RobustVideoMatting, Real-ESRGAN, ProPainter
+- **Machine Learning Models:** RobustVideoMatting, Real-ESRGAN, ProPainter,VoiceFixer, OpenAi Whisper, ModelscopeT2V
 - **React + Vite** (for frontend)
 - **Ngrok** (for exposing local servers)
 
