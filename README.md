@@ -41,11 +41,13 @@ This repository contains solutions and implementations for the IITISoC Machine L
 - **GIF Generator**
   - Generate GIFs from processed video or image sequences.
   - Ready-to-use utilities and notebooks available in `features/gif_generator/`.
-
-- **Web Frontend**
+    
+- **Web Interface**
   - React + Vite frontend for demoing ML features (`web_dev/frontend/`).
+  - Node + Express backend that utilises Prisma ORM + PostGRESQL as the DB
+  - Cloudinary CDN configured for storage of videos.
   - ESLint and recommended plugins are pre-configured.
-
+    
 ## Installation
 
 Follow these steps to set up the project locally.
