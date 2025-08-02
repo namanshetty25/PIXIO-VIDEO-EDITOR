@@ -93,13 +93,13 @@ npm run dev
 
 - **Jupyter Notebook**
 - **Python** (with libraries: torch, torchvision, tqdm, pims, ffmpeg-python, opencv-python, av, fastapi, uvicorn, nest-asyncio, python-multipart)
-- * **Machine Learning Models:** RobustVideoMatting, Real-ESRGAN, ProPainter
-- * **React + Vite** (for frontend)
-- * **Node + Express.js** (for backend)
-- * **Prisma ORM + PostGRESQL (Neon DB)** (for database storage)
-- * **Cloudinary** (for cloud storage)
-- * **FFMPEG** (for exporting)
-- * **Ngrok** (for exposing local servers)
+- **Machine Learning Models:** RobustVideoMatting, Real-ESRGAN, ProPainter
+- **React + Vite** (for frontend)
+- **Node + Express.js** (for backend)
+- **Prisma ORM + PostGRESQL (Neon DB)** (for database storage)
+- **Cloudinary** (for cloud storage)
+- **FFMPEG** (for exporting)
+- **Ngrok** (for exposing local servers)
 
 ## Contributing
 
