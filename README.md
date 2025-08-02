@@ -87,13 +87,8 @@ Frontend
 cd ./web_dev/frontend
 npm run dev
 ```
-### 5. Clone the repository:
-    ```bash
-    git clone https://github.com/rishabh-2005/IITISoC-ML-05.git
-    cd IITISoC-ML-05
-    ```
-### 6. Open the required notebook in Jupyter or Colab.
-### 7. Follow the setup cells in each notebook to install dependencies and download pre-trained models.
+### 5. Open the required notebook in Jupyter or Colab.
+### 6. Follow the setup cells in each notebook to install dependencies and download pre-trained models.
 ## Technologies Used
 
 - **Jupyter Notebook**
