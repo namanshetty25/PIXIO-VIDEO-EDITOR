@@ -97,7 +97,7 @@ Frontend App: http://localhost:5173
 
 - **Jupyter Notebook**
 - **Python** (with libraries: torch, torchvision, tqdm, pims, ffmpeg-python, opencv-python, av, fastapi, uvicorn, nest-asyncio, python-multipart)
-- **Machine Learning Models:** RobustVideoMatting, Real-ESRGAN, ProPainterVoiceFixer,OpenAI Whisper
+- **Machine Learning Models:** RobustVideoMatting, Real-ESRGAN, ProPainter, VoiceFixer ,OpenAI Whisper
 - **React + Vite** (for frontend)
 - **Node + Express.js** (for backend)
 - **Prisma ORM + PostGRESQL (Neon DB)** (for database storage)
