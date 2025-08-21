@@ -109,6 +109,14 @@ Frontend App: http://localhost:5173
 - **FFMPEG** (for exporting)
 - **Ngrok** (for exposing local servers)
 
+## Contributors
+
+- [namanshetty25](https://github.com/namanshetty25)
+- [prakrati28](https://github.com/prakrati28)
+- [Aryaman Tiwari](https://github.com/boom-bam-boop)
+- [alayacruz](https://github.com/alayacruz)
+- [AnushkaKrishan](https://github.com/AnushkaKrishan)
+
 ## Contributing
 
 Feel free to open issues or submit pull requests for improvements or new features.
