@@ -1,4 +1,5 @@
-# IITISoC-ML-05
+# PIXIO GEN-AI VIDEO EDITOR
+[![Watch Demo](https://img.youtube.com/vi/3vgasqhx9SY/0.jpg)](https://youtu.be/3vgasqhx9SY?si=E3TrH8lpjZfax4Db)
 
 This repository contains solutions and implementations for the IITISoC Machine Learning Track (Project 05). It is organized into several feature modules related to video and audio processing, leveraging state-of-the-art ML models.
 
